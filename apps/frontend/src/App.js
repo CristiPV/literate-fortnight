@@ -1,3 +1,4 @@
+import MainPage from "./views/MainPage";
 import React, { useState } from "react";
 
 import ClientSocket from "./components/ClientSocket";
@@ -7,6 +8,7 @@ function App() {
 
   return (
     <>
+      <MainPage />
       <button onClick={() => setIsClientLoaded((prevState) => !prevState)}>
         {isClientLoaded ? "Disconnect" : "Connect"}
       </button>
