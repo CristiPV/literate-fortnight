@@ -4,6 +4,7 @@ import UserInputComponent from "../components/UserInputComponent";
 export default function MainPage() {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
+  const [user, setUser] = useState(undefined);
   const [participants, setParticipants] = useState([
     { item: "One", itemv: 1 },
     { item: "Two", itemv: 2 },
@@ -34,7 +35,14 @@ export default function MainPage() {
       {winnings.map((item, i) => (
         <p key={i}>{item.name}</p>
       ))}
-      <UserInputComponent/>
+      <UserInputComponent setUser={setUser}/>
+      {
+        user ? (
+          <p>{user.name}</p>
+        ) : (
+          null
+        )
+      }
     </div>
   );
 }
