@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import socketIOClient from "socket.io-client";
 
 const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
 
-function ClientSocket() {
-  const [connectionTime, setConnectionTime] = useState("");
+function ClientSocket(props) {
+  // Props
+  const username = props.username;
+  const balance = props.balance;
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT, { transports: ["websocket"] });
-    socket.on("sendTime", (data) => {
-      setConnectionTime(data);
+
+    socket.on("requestPlayerData", () => {
+      socket.emit("sendPlayerData", { username, balance });
     });
 
     return () => socket.disconnect();
-  }, []);
+  }, [username, balance]);
 
   return (
     <div>
-      <p>
-        It's <time dateTime={connectionTime}>{connectionTime}</time>
-      </p>
+      Player {username} joined with {balance} credits !
     </div>
   );
 }

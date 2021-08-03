@@ -10,7 +10,7 @@ function App() {
       <button onClick={() => setIsClientLoaded((prevState) => !prevState)}>
         {isClientLoaded ? "Disconnect" : "Connect"}
       </button>
-      {isClientLoaded ? <ClientSocket /> : null}
+      {isClientLoaded ? <ClientSocket username="Cristi" balance={200} /> : null}
     </>
   );
 }
