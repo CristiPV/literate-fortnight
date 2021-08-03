@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const socketIo = require("socket.io");
 const http = require("http");
 const express = require("express");
@@ -17,14 +17,20 @@ const httpServer = http.createServer(app);
 const io = socketIo(httpServer);
 
 io.on("connection", (socket) => {
-    console.log("Socket connected", socket.id);
+  console.log("Socket connected", socket.id);
 
-    // Send the time of connection to the client
-    socket.emit("sendTime", new Date());
+  // Request the player data on connection
+  socket.emit("requestPlayerData");
 
-    socket.on("disconnect", () => {
-        console.log("Socket disconnected", socket.id);
-    });
+  socket.on("sendPlayerData", (data) => {
+    socket.player = data;
+
+    console.log("Player connected", socket.player);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected", socket.id);
+  });
 });
 
 const server = httpServer.listen(PORT, (error) => {
