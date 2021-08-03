@@ -1,5 +1,5 @@
 require("dotenv").config();
-const socketIo = require("socket.io");
+const socketService = require("./services/socketService.js");
 const http = require("http");
 const express = require("express");
 
@@ -14,7 +14,7 @@ const app = express();
 app.use(index);
 
 const httpServer = http.createServer(app);
-const io = socketIo(httpServer);
+const io = socketService.createIo(httpServer);
 
 io.on("connection", (socket) => {
   console.log("Socket connected", socket.id);
