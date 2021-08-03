@@ -1,5 +1,6 @@
 require('dotenv').config();
 const socketIo = require("socket.io");
+const http = require("http");
 const express = require("express");
 
 // Environment variables
