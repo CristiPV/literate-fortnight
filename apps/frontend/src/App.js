@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import ClientSocket from "./components/ClientSocket";
 
-const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
-
 function App() {
   const [isClientLoaded, setIsClientLoaded] = useState(true);
 
