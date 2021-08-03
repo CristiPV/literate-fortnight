@@ -9,25 +9,23 @@ class UserInputComponent extends React.Component {
     };
 
     //this.handleInputChange = this.handleInputChange.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   isValid = (input) =>{
-    //do validation
+    //TODO validation
 
   }
   handleInputChange = ({target}) => {
     this.setState({[target.name]: target.value});
     
   };
-  /*
-  handleSubmit = e => {
-    e.preventDefault();
-    const { username, amountofFunds }
-
-  }*/
+  
+  handleSubmit(event) {
+    
+  }
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="username"/>
           Insert Username:
           <input
@@ -40,11 +38,13 @@ class UserInputComponent extends React.Component {
           Insert amount of funds:
           <input
             name="amountOfFunds"
-            type="text"
+            type="number"
             value={this.state.amountOfFunds}
             onChange={this.handleInputChange} />        
         <br />
         <button type="submit">Submit</button>
+
+        <br />
       </form>
     );
   }

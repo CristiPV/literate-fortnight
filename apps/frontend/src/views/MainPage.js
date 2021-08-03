@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import Wheel from "../components/Wheel";
-import UserInputComponent from "./components/UserInputComponent";
+import UserInputComponent from "../components/UserInputComponent";
 export default function MainPage() {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
@@ -34,6 +34,7 @@ export default function MainPage() {
       {winnings.map((item, i) => (
         <p key={i}>{item.name}</p>
       ))}
+      <UserInputComponent/>
     </div>
   );
 }
