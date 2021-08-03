@@ -2,7 +2,7 @@
 import MainPage from "./views/MainPage";
 import React, { useState } from "react";
 
-import ClientSocket from "./components/ClientSocket";
+import Game from "./components/Game";
 
 function App() {
   const [isClientLoaded, setIsClientLoaded] = useState(true);
@@ -11,9 +11,9 @@ function App() {
     <>
       <MainPage />
       <button onClick={() => setIsClientLoaded((prevState) => !prevState)}>
-        {isClientLoaded ? "Disconnect" : "Connect"}
+        {isClientLoaded ? "Join game" : "Leave game"}
       </button>
-      {isClientLoaded ? <ClientSocket /> : null}
+      {isClientLoaded ? <Game username="Cristi" balance={200} /> : null}
     </>
   );
 }
