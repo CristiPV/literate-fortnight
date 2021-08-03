@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 import socketService from "../services/socketService";
 
@@ -7,20 +7,28 @@ function Game(props) {
   const username = props.username;
   const balance = props.balance;
 
-  useEffect(() => {
-    const socket = socketService.createSocket();
+  // Refs
+  const socketRef = useRef(null);
 
-    socket.on("requestPlayerData", () => {
-      socket.emit("sendPlayerData", { username, balance });
+  useEffect(() => {
+    socketRef.current = socketService.createSocket();
+
+    socketRef.current.on("requestPlayerData", () => {
+      socketRef.current.emit("sendPlayerData", { username, balance });
     });
 
-    return () => socket.disconnect();
+    return () => socketRef.current.disconnect();
   }, [username, balance]);
 
   return (
-    <div>
-      Player {username} joined with {balance} credits !
-    </div>
+    <>
+      <div>
+        Player {username} joined with {balance} credits !
+      </div>
+      <button onClick={() => socketRef.current.emit("placedBet", 50)}>
+        Bet 50 credits
+      </button>
+    </>
   );
 }
 
