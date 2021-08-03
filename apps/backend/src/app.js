@@ -16,16 +16,26 @@ app.use(index);
 const httpServer = http.createServer(app);
 const io = socketService.createIo(httpServer);
 
+// IO
 io.on("connection", (socket) => {
   console.log("Socket connected", socket.id);
 
   // Request the player data on connection
   socket.emit("requestPlayerData");
 
+  // Saves the player data in the socket
   socket.on("sendPlayerData", (data) => {
     socket.player = data;
 
     console.log("Player connected", socket.player);
+  });
+
+  // Saves the bet amount in the player data and places the socket in the game room
+  socket.on("placedBet", (data) => {
+    socket.player.betAmount = data;
+    io.in(socket.id).socketsJoin("gameRoom");
+
+    console.log("Player", socket.player, "joined the game room with", data, "credits");
   });
 
   socket.on("disconnect", () => {
