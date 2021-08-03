@@ -32,7 +32,8 @@ class UserInputComponent extends React.Component {
             name="username"
             type="text"
             value={this.state.username}
-            onChange={this.handleInputChange} />        
+            onChange={this.handleInputChange} 
+            pattern="^[a-zA-Z ]"/>        
         <br />
         <label htmlFor="amountOfFunds" />
           Insert amount of funds:
