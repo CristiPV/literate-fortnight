@@ -11,6 +11,8 @@ function ClientSocket() {
     socket.on("sendTime", (data) => {
       setConnectionTime(data);
     });
+
+    return () => socket.disconnect();
   }, []);
 
   return (
