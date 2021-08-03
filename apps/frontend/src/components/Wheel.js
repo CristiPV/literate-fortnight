@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 //import WheelComponent from 'react-wheel-of-prizes'
-import WheelComponent from "./StaticWheel";
-import WheelComponent2 from "./SpinningWheel";
+import StaticWheel from "./StaticWheel";
+import SpinningWheel from "./SpinningWheel";
 import "react-wheel-of-prizes/dist/index.css";
 
 const Wheel = (props) => {
@@ -24,7 +24,7 @@ const Wheel = (props) => {
   return (
     <div>
       {props.spin ? (
-        <WheelComponent2
+        <SpinningWheel
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.winner}
@@ -38,7 +38,7 @@ const Wheel = (props) => {
           downDuration={1000}
         />
       ) : (
-        <WheelComponent
+        <StaticWheel
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.winner}
