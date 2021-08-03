@@ -115,7 +115,7 @@ export default function (props) {
     ctx.font = "bold 1em proxima-nova";
     ctx.fillStyle = contrastColor || "white";
     ctx.textAlign = "center";
-    ctx.fillText(buttonText || "Spin", centerX, centerY + 3);
+    ctx.fillText(buttonText || "", centerX, centerY + 3);
     ctx.stroke();
     ctx.beginPath();
     ctx.arc(centerX, centerY, size, 0, PI2, false);

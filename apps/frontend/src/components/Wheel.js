@@ -6,6 +6,7 @@ import WheelComponent2 from "./SpinningWheel";
 import "react-wheel-of-prizes/dist/index.css";
 
 const Wheel = (props) => {
+  const wheelText = "Jackpot";
   const segColors = [
     "#EE4040",
     "#F0CF50",
@@ -30,7 +31,7 @@ const Wheel = (props) => {
           onFinished={(winner) => onFinished(winner)}
           primaryColor="black"
           contrastColor="white"
-          buttonText="Spin"
+          buttonText={wheelText}
           isOnlyOnce={false}
           size={300}
           upDuration={100}
@@ -44,7 +45,7 @@ const Wheel = (props) => {
           onFinished={(winner) => onFinished(winner)}
           primaryColor="black"
           contrastColor="white"
-          buttonText="Spin"
+          buttonText={wheelText}
           isOnlyOnce={false}
           size={300}
           upDuration={100}
