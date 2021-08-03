@@ -15,6 +15,7 @@ app.use(index);
 
 const httpServer = http.createServer(app);
 const io = socketService.createIo(httpServer);
+const gameService = require("./services/gameService.js");
 
 // IO
 io.on("connection", (socket) => {
@@ -33,10 +34,22 @@ io.on("connection", (socket) => {
   // Saves the bet amount in the player data and places the socket in the game room
   socket.on("placedBet", (data) => {
     socket.player.betAmount = data;
-    socket.player.balance -= data;
-    io.in(socket.id).socketsJoin("gameRoom");
+    socket.join("gameRoom");
 
-    console.log("Player", socket.player, "joined the game room with", data, "credits");
+    gameService.increaseJackpot(data);
+
+    // Check if game can start
+    if (gameService.gameCanStart()) {
+      gameService.startGame();
+    }
+
+    console.log(
+      "Player",
+      socket.player,
+      "joined the game room with",
+      data,
+      "credits"
+    );
   });
 
   socket.on("disconnect", () => {
