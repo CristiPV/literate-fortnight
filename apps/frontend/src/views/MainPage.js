@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Wheel from "../components/Wheel";
-
+import UserInputComponent from "../components/UserInputComponent";
 export default function MainPage() {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
-  const [participants] = useState([
+  const [user, setUser] = useState(undefined);
+  const [participants, setParticipants] = useState([
     { item: "One", itemv: 1 },
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
@@ -24,30 +25,40 @@ export default function MainPage() {
 
   return (
     <div className="relative h-full w-full">
-      <div className="space-x-4 w-min m-auto flex flex-row p-4">
-        <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-          Spin Wheel
-        </button>
-        <button className={buttonStyle} onClick={() => setSpin(false)}>
-          Reset Wheel
-        </button>
-      </div>
-      <div className="flex flex-row">
-        <div className="m-auto w-min">
-          <Wheel
-            spin={spin}
-            winner={""}
-            postWinner={addWinner}
-            participantsList={participants}
-          />
+      {user ? (
+        <div>
+          <div className="space-x-4 w-min m-auto flex flex-row p-4">
+            <button className={buttonStyle} onClick={() => setSpin(!spin)}>
+              Spin Wheel
+            </button>
+            <button className={buttonStyle} onClick={() => setSpin(false)}>
+              Reset Wheel
+            </button>
+          </div>
+          <div className="flex flex-row">
+            <div className="m-auto w-min">
+              <Wheel
+                spin={spin}
+                winner={""}
+                postWinner={addWinner}
+                participantsList={participants}
+              />
+            </div>
+            <div className="absolute right-10 rounded border border-2 border-t-4 border-r-4 border-red-300 p-2 h-4/5 text-white">
+              <p className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-red-800 to-white">Winning History</p>
+              <div className="h-1 w-full bg-green-300" />
+              {winnings.map((item, i) => (
+                <p key={i}>{item.name}</p>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="absolute right-10">
-          <p className="text-4xl font-bold">Winning History</p>
-          {winnings.map((item, i) => (
-            <p key={i}>{item.name}</p>
-          ))}
-        </div>
-      </div>
+      ) : (
+        <div className="pt-10 h-min w-min m-auto">
+          <UserInputComponent setUser={setUser} />
+          </div>
+        
+      )}
     </div>
   );
 }
