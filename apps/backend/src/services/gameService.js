@@ -1,7 +1,7 @@
 const socketService = require("./socketService");
 
 const io = socketService.getIo();
-const startTimeout = 2000; // 120.000 milliseconds ( 2 minutes )
+const startTimeout = 120000; // 120.000 milliseconds ( 2 minutes )
 
 let jackpot = 0;
 const increaseJackpot = (amount) => (jackpot += amount);
