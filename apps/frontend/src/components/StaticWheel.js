@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export default function (props) {
+export default function StaticWheel(props) {
   var segments = props.segments,
     segColors = props.segColors,
     primaryColor = props.primaryColor,

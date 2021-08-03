@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function (props) {
+export default function SpinningWheel(props) {
   var segments = props.segments,
     segColors = props.segColors,
     winningSegment = props.winningSegment,

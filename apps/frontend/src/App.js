@@ -7,13 +7,9 @@ function App() {
   const [isClientLoaded, setIsClientLoaded] = useState(true);
 
   return (
-    <>
+    <div className="h-screen w-full bg-gradient-to-r from-green-400 to-blue-500">
       <MainPage />
-      <button onClick={() => setIsClientLoaded((prevState) => !prevState)}>
-        {isClientLoaded ? "Disconnect" : "Connect"}
-      </button>
-      {isClientLoaded ? <ClientSocket /> : null}
-    </>
+    </div>
   );
 }
 
