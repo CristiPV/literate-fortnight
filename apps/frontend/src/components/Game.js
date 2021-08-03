@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import socketIOClient from "socket.io-client";
 
-const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT;
+import socketService from "../services/socketService";
 
-function ClientSocket(props) {
+function Game(props) {
   // Props
   const username = props.username;
   const balance = props.balance;
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT, { transports: ["websocket"] });
+    const socket = socketService.createSocket();
 
     socket.on("requestPlayerData", () => {
       socket.emit("sendPlayerData", { username, balance });
@@ -25,4 +24,4 @@ function ClientSocket(props) {
   );
 }
 
-export default ClientSocket;
+export default Game;
