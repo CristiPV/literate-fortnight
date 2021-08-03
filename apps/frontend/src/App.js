@@ -1,8 +1,10 @@
-
+import UserInputComponent from "./components/UserInputComponent";
 function App() {
   return (
     <div>
-    </div>
+        <UserInputComponent />
+
+      </div>
   );
 }
 
