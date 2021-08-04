@@ -18,7 +18,7 @@ function ParticipantList(props){
     );
 }
 */
-const ListofOpponents = (props) => {
+const ListofParticipants = (props) => {
     //var participantss = props.ParticipantList;
     return(
         <div className="absolute left-6 h-3/4">
