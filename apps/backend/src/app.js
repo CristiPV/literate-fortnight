@@ -33,6 +33,9 @@ io.on("connection", (socket) => {
 
   // Saves the bet amount in the player data and places the socket in the game room
   socket.on("placedBet", (data) => {
+    if (!socket.player) {
+      socket.player = {};
+    }
     socket.player.betAmount = data;
     socket.join("gameRoom");
 
