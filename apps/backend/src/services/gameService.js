@@ -35,16 +35,8 @@ function startGame() {
   );
 
   startTimer.promise.then(() => {
-    const players = [];
-    const playerIds = io.sockets.adapter.rooms.get("gameRoom");
+    const players = calculatePlayerWeights();
 
-    for (id of playerIds) {
-      const player = {
-        id: id,
-        weight: io.sockets.sockets.get(id).player.betAmount / jackpot,
-      };
-      players.push(player);
-    }
     let winner = players[chooseItem(players)];
     winner = {
       ...winner,
@@ -74,6 +66,7 @@ function resetGame() {
     io.sockets.adapter.rooms.get("gameRoom")
   );
   console.log(countdownInterval);
+  sendBettingPlayers();
   resetJackpot();
   resetCountdown();
 }
@@ -93,15 +86,40 @@ const gameCanStart = () => {
   return false;
 };
 
-const sendAllPlayers = () => {
-    io.fetchSockets().then((sockets) => {
-        players = sockets.map((socket) => {
-            player = {id: socket.id, ...socket.player};
-            return player;
-        });
-      io.emit("allPlayers", { players: players });
-    });
+function calculatePlayerWeights() {
+  const players = [];
+  if (io.sockets.adapter.rooms.get("gameRoom")) {
+    const playerIds = io.sockets.adapter.rooms.get("gameRoom");
+
+    for (id of playerIds) {
+      const player = {
+        id: id,
+        weight: io.sockets.sockets.get(id).player.betAmount / jackpot,
+      };
+      players.push(player);
+    }
+  }
+  return players;
 }
+
+const sendBettingPlayers = () => {
+  let players = calculatePlayerWeights();
+  players = players.map((player) => {
+    return { ...player, ...io.sockets.sockets.get(player.id).player, jackpot };
+  });
+  console.log(players);
+  io.emit("bettingPlayers", { players: players });
+};
+
+const sendAllPlayers = () => {
+  io.fetchSockets().then((sockets) => {
+    const players = sockets.map((socket) => {
+      player = { id: socket.id, ...socket.player };
+      return player;
+    });
+    io.emit("allPlayers", { players: players });
+  });
+};
 
 /**
  * Chooses an item in the given list randomly, based on its chance.
@@ -149,5 +167,6 @@ module.exports = {
   gameCanStart,
   startGame,
   increaseJackpot,
+  sendBettingPlayers,
   sendAllPlayers,
 };
