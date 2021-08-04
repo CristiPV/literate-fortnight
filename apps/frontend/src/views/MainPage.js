@@ -50,7 +50,12 @@ export default function MainPage(props) {
   },[props.bettingPlayers])
 
   useEffect(() => {
-    setSpin(true)
+    console.log(props.winner)
+    if(props.winner.id)
+    {
+      setSpin(true)
+    }
+    
   },[props.winner])
 
   const buttonStyle =

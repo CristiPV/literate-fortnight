@@ -29,7 +29,6 @@ const Game = (props) => {
     });
     socketRef.current.on("spinWheel", (data) => {
       console.log(data);
-      console.log(socketRef.current);
       setWinner(data);
     });
     socketRef.current.on("countdown", (data) => {
@@ -40,11 +39,16 @@ const Game = (props) => {
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
-      setBettingPlayers(data.players);
+      if(data.players.length !== 0)
+      {
+        console.log(data)
+        setBettingPlayers(data.players);
+      }
+      
+      
     });
 
     socketRef.current.on("updateBalance", (data) => {
-      console.log(data)
       setBalance(data);
     });
   }, [username, balance]);
