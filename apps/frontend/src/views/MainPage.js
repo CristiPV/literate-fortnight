@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Wheel from "../components/Wheel";
 import UserInputComponent from "../components/UserInputComponent";
+import ListofOpponents from "../components/ListofOpponents";
+
+
+
 export default function MainPage() {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
@@ -22,11 +26,29 @@ export default function MainPage() {
 
   const buttonStyle =
     "bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max";
+    /*
+<div>
 
+{ 
+  figures.map((figure, key) => {
+    return <Figure key={key} {...figure}/>
+  })
+}
+
+</div>
+*/
   return (
     <div className="relative h-full w-full">
       {user ? (
         <div>
+          <div className="flex flex-row">
+            <div className="m-auto w-min"/>
+            {
+              participants.map((item,key)=>{
+                return <ListofOpponents key={key} {...participants}/>
+              })
+            }
+          </div>          
           <div className="space-x-4 w-min m-auto flex flex-row p-4">
             <button className={buttonStyle} onClick={() => setSpin(!spin)}>
               Spin Wheel
