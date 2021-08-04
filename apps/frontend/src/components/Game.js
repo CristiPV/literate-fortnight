@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import Countdown from "./Countdown";
+
 import socketService from "../services/socketService";
 
 const Game = (props) => {
@@ -35,7 +37,7 @@ const Game = (props) => {
       <button onClick={() => socketRef.current.emit("placedBet", 50)}>
         Bet 50 credits
       </button>
-      {countdown ? <div>{countdown}</div> : <></>}
+      <Countdown countdown={countdown}/>
     </>
   );
 };
