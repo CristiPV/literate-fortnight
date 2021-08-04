@@ -86,6 +86,10 @@ const gameCanStart = () => {
   return false;
 };
 
+/**
+ * Creates a list with the id and weight of each socket in the game room
+ * @returns a list of objects with an id and a weight
+ */
 function calculatePlayerWeights() {
   const players = [];
   if (io.sockets.adapter.rooms.get("gameRoom")) {
@@ -102,6 +106,9 @@ function calculatePlayerWeights() {
   return players;
 }
 
+/**
+ * Emits a list of all betting players to the client sockets.
+ */
 const sendBettingPlayers = () => {
   let players = calculatePlayerWeights();
   players = players.map((player) => {
@@ -111,6 +118,9 @@ const sendBettingPlayers = () => {
   io.emit("bettingPlayers", { players: players });
 };
 
+/**
+ * Emits a list of all players to the client sockets.
+ */
 const sendAllPlayers = () => {
   io.fetchSockets().then((sockets) => {
     const players = sockets.map((socket) => {
