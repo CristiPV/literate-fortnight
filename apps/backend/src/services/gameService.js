@@ -1,20 +1,43 @@
 const socketService = require("./socketService");
 
 const io = socketService.getIo();
-const startTimeout = 120000; // 120.000 milliseconds ( 2 minutes )
+const startTimeout = process.env.BETTING_PHASE_DURATION || 120000; // 120.000 milliseconds ( 2 minutes )
 
+let gameRunning = false;
 let jackpot = 0;
-const increaseJackpot = (amount) => (jackpot += amount);
+let countdownInterval = startTimeout;
+const countdownAmount = 1000; // 1000 milliseconds ( 1 second )
 
+const increaseJackpot = (amount) => (jackpot += amount);
+const resetJackpot = () => (jackpot = 0);
+
+const countdown = (time) => {
+  countdownInterval -= time;
+  io.emit("countdown", countdownInterval);
+};
+const resetCountdown = () => (countdownInterval = startTimeout);
 
 function startGame() {
+  // Start game timer
+  gameRunning = true;
   const startTimer = sleep(startTimeout);
-  console.log("Game has started.\nGame Room:", io.sockets.adapter.rooms.get("gameRoom"));
+
+  // Start countdown interval
+  io.emit("countdown", countdownInterval);
+  const clockInterval = setInterval(
+    () => countdown(countdownAmount),
+    countdownAmount
+  );
+
+  console.log(
+    "Game has started.\nGame Room:",
+    io.sockets.adapter.rooms.get("gameRoom")
+  );
 
   startTimer.promise.then(() => {
     const players = [];
     const playerIds = io.sockets.adapter.rooms.get("gameRoom");
-  
+
     for (id of playerIds) {
       const player = {
         id: id,
@@ -27,14 +50,27 @@ function startGame() {
 
     io.to("gameRoom").emit("spinWheel", { winner });
 
+    clearInterval(clockInterval);
+    countdown(countdownAmount);
+
+    console.log(
+      "Game has ended.\nGame Room:",
+      io.sockets.adapter.rooms.get("gameRoom")
+    );
     resetGame();
   });
 }
 
 function resetGame() {
-    io.socketsLeave("gameRoom");
-    console.log("Game has ended.\nGame Room:", io.sockets.adapter.rooms.get("gameRoom"));
-    jackpot = 0;
+  gameRunning = false;
+  io.socketsLeave("gameRoom");
+  console.log(
+    "Game has reset.\nGame Room:",
+    io.sockets.adapter.rooms.get("gameRoom")
+  );
+  console.log(countdownInterval);
+  resetJackpot();
+  resetCountdown();
 }
 
 /**
@@ -42,8 +78,12 @@ function resetGame() {
  * @returns true or false, depending on the game starting requirements.
  */
 const gameCanStart = () => {
-  if (io.sockets.adapter.rooms.get("gameRoom")) {
-    return io.sockets.adapter.rooms.get("gameRoom").size >= 2;
+  if (
+    io.sockets.adapter.rooms.get("gameRoom") &&
+    io.sockets.adapter.rooms.get("gameRoom").size >= 2 &&
+    !gameRunning
+  ) {
+    return true;
   }
   return false;
 };
@@ -91,7 +131,7 @@ function sleep(ms) {
 }
 
 module.exports = {
-  gameCanStart: gameCanStart,
-  startGame: startGame,
-  increaseJackpot: increaseJackpot,
+  gameCanStart,
+  startGame,
+  increaseJackpot,
 };
