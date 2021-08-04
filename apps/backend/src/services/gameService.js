@@ -1,7 +1,7 @@
 const socketService = require("./socketService");
 
 const io = socketService.getIo();
-const startTimeout = 120000; // 120.000 milliseconds ( 2 minutes )
+const startTimeout = process.env.BETTING_PHASE_DURATION || 120000; // 120.000 milliseconds ( 2 minutes )
 
 let gameRunning = false;
 let jackpot = 0;
