@@ -10,7 +10,6 @@ import MainPage from "../views/MainPage";
 const Game = (props) => {
   // Props
   const username = props.username;
-  const balance = props.balance;
 
   // Refs
   const socketRef = useRef(null);
@@ -19,6 +18,7 @@ const Game = (props) => {
   const [countdown, setCountdown] = useState(null);
   const [participant, setParticipant] = useState([]);
   const [winner, setWinner] = useState("");
+  const [balance, setBalance] = useState(200);
 
   useEffect(() => {
     socketRef.current = socketService.createSocket();
@@ -35,7 +35,17 @@ const Game = (props) => {
       setCountdown(data);
     });
 
-    return () => socketRef.current.disconnect();
+    socketRef.current.on("allPlayers", (data) => {
+      console.log("AllPlayers", data);
+    });
+
+    socketRef.current.on("bettingPlayers", (data) => {
+      console.log("BettingPlayers", data);
+    });
+
+    socketRef.current.on("updateBalance", (data) => {
+      setBalance(data);
+    });
   }, [username, balance]);
 
   return (

@@ -35,19 +35,21 @@ function startGame() {
   );
 
   startTimer.promise.then(() => {
-    const players = [];
-    const playerIds = io.sockets.adapter.rooms.get("gameRoom");
+    const players = calculatePlayerWeights();
 
-    for (id of playerIds) {
-      const player = {
-        id: id,
-        weight: io.sockets.sockets.get(id).player.betAmount / jackpot,
-      };
-      players.push(player);
-    }
     let winner = players[chooseItem(players)];
-    winner = {...winner, ...io.sockets.sockets.get(winner.id).player, jackpot};
+    const winnerSocket = io.sockets.sockets.get(winner.id);
+    winner = {
+      ...winner,
+      ...winnerSocket.player,
+      jackpot,
+    };
     console.log("Selected winner:", winner);
+
+    winnerSocket.emit(
+      "updateBalance",
+      updateBalance(jackpot, winnerSocket)
+    );
 
     io.to("gameRoom").emit("spinWheel", winner);
 
@@ -69,7 +71,8 @@ function resetGame() {
     "Game has reset.\nGame Room:",
     io.sockets.adapter.rooms.get("gameRoom")
   );
-  console.log(countdownInterval);
+
+  sendBettingPlayers();
   resetJackpot();
   resetCountdown();
 }
@@ -87,6 +90,65 @@ const gameCanStart = () => {
     return true;
   }
   return false;
+};
+
+/**
+ * Creates a list with the id and weight of each socket in the game room
+ * @returns a list of objects with an id and a weight
+ */
+function calculatePlayerWeights() {
+  const players = [];
+  if (io.sockets.adapter.rooms.get("gameRoom")) {
+    const playerIds = io.sockets.adapter.rooms.get("gameRoom");
+
+    for (id of playerIds) {
+      const player = {
+        id: id,
+        weight: io.sockets.sockets.get(id).player.betAmount / jackpot,
+      };
+      players.push(player);
+    }
+  }
+  return players;
+}
+
+/**
+ * Emits a list of all betting players to the client sockets.
+ */
+const sendBettingPlayers = () => {
+  let players = calculatePlayerWeights();
+  players = players.map((player) => {
+    return { ...player, ...io.sockets.sockets.get(player.id).player, jackpot };
+  });
+
+  io.emit("bettingPlayers", { players: players });
+};
+
+/**
+ * Emits a list of all players to the client sockets.
+ */
+const sendAllPlayers = () => {
+  io.fetchSockets().then((sockets) => {
+    const players = sockets.map((socket) => {
+      player = { id: socket.id, ...socket.player };
+      return player;
+    });
+    io.emit("allPlayers", { players: players });
+  });
+};
+
+/**
+ * Updates a given socket's balance with the given
+ * @param {Number} amount
+ * @param {Socket} socket
+ * @returns the new balance
+ */
+const updateBalance = (amount, socket) => {
+  if (socket.player && socket.player.balance) {
+    socket.player.balance += amount;
+    return socket.player.balance;
+  }
+  return 0;
 };
 
 /**
@@ -135,4 +197,7 @@ module.exports = {
   gameCanStart,
   startGame,
   increaseJackpot,
+  sendBettingPlayers,
+  sendAllPlayers,
+  updateBalance,
 };
