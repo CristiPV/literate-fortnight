@@ -46,7 +46,11 @@ function startGame() {
       players.push(player);
     }
     let winner = players[chooseItem(players)];
-    winner = {...winner, ...io.sockets.sockets.get(winner.id).player, jackpot};
+    winner = {
+      ...winner,
+      ...io.sockets.sockets.get(winner.id).player,
+      jackpot,
+    };
     console.log("Selected winner:", winner);
 
     io.to("gameRoom").emit("spinWheel", winner);
@@ -88,6 +92,16 @@ const gameCanStart = () => {
   }
   return false;
 };
+
+const sendAllPlayers = () => {
+    io.fetchSockets().then((sockets) => {
+        players = sockets.map((socket) => {
+            player = {id: socket.id, ...socket.player};
+            return player;
+        });
+      io.emit("allPlayers", { players: players });
+    });
+}
 
 /**
  * Chooses an item in the given list randomly, based on its chance.
@@ -135,4 +149,5 @@ module.exports = {
   gameCanStart,
   startGame,
   increaseJackpot,
+  sendAllPlayers,
 };

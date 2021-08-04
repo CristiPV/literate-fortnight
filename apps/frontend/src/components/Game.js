@@ -26,6 +26,10 @@ const Game = (props) => {
       setCountdown(data);
     });
 
+    socketRef.current.on("allPlayers", (data) => {
+      console.log("AllPlayers", data);
+    });
+
     return () => socketRef.current.disconnect();
   }, [username, balance]);
 
