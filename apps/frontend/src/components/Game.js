@@ -7,13 +7,13 @@ import socketService from "../services/socketService";
 const Game = (props) => {
   // Props
   const username = props.username;
-  const balance = props.balance;
 
   // Refs
   const socketRef = useRef(null);
 
   // State
   const [countdown, setCountdown] = useState(null);
+  const [balance, setBalance] = useState(200);
 
   useEffect(() => {
     socketRef.current = socketService.createSocket();
@@ -34,8 +34,9 @@ const Game = (props) => {
       console.log("BettingPlayers", data);
     });
 
-
-    return () => socketRef.current.disconnect();
+    socketRef.current.on("updateBalance", (data) => {
+      setBalance(data);
+    });
   }, [username, balance]);
 
   return (
@@ -46,7 +47,7 @@ const Game = (props) => {
       <button onClick={() => socketRef.current.emit("placedBet", 50)}>
         Bet 50 credits
       </button>
-      <Countdown countdown={countdown}/>
+      <Countdown countdown={countdown} />
     </>
   );
 };

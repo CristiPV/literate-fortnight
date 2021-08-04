@@ -13,7 +13,7 @@ function App() {
       <button onClick={() => setIsClientLoaded((prevState) => !prevState)}>
         {isClientLoaded ? "Join game" : "Leave game"}
       </button>
-      {isClientLoaded ? <Game username="Cristi" balance={200} /> : null}
+      {isClientLoaded ? <Game username="Cristi"/> : null}
     </div>
   );
 }

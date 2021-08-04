@@ -27,10 +27,17 @@ io.on("connection", (socket) => {
   // Saves the player data in the socket
   socket.on("sendPlayerData", (data) => {
     socket.player = data;
+    if (!socket.player.balance) {
+      socket.player.balance = 0;
+    }
 
     gameService.sendAllPlayers();
-    
+
     console.log("Player connected", socket.player);
+  });
+
+  socket.on("addFunds", (data) => {
+    socket.emit("updateBalance", gameService.updateBalance(data, socket));
   });
 
   // Saves the bet amount in the player data and places the socket in the game room
@@ -48,6 +55,8 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
+    socket.emit("updateBalance", gameService.updateBalance(-data, socket));
+    
     gameService.sendBettingPlayers();
 
     console.log(

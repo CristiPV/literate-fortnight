@@ -38,12 +38,18 @@ function startGame() {
     const players = calculatePlayerWeights();
 
     let winner = players[chooseItem(players)];
+    const winnerSocket = io.sockets.sockets.get(winner.id);
     winner = {
       ...winner,
-      ...io.sockets.sockets.get(winner.id).player,
+      ...winnerSocket.player,
       jackpot,
     };
     console.log("Selected winner:", winner);
+
+    winnerSocket.emit(
+      "updateBalance",
+      updateBalance(jackpot, winnerSocket)
+    );
 
     io.to("gameRoom").emit("spinWheel", winner);
 
@@ -65,7 +71,7 @@ function resetGame() {
     "Game has reset.\nGame Room:",
     io.sockets.adapter.rooms.get("gameRoom")
   );
-  console.log(countdownInterval);
+
   sendBettingPlayers();
   resetJackpot();
   resetCountdown();
@@ -114,7 +120,7 @@ const sendBettingPlayers = () => {
   players = players.map((player) => {
     return { ...player, ...io.sockets.sockets.get(player.id).player, jackpot };
   });
-  console.log(players);
+
   io.emit("bettingPlayers", { players: players });
 };
 
@@ -129,6 +135,20 @@ const sendAllPlayers = () => {
     });
     io.emit("allPlayers", { players: players });
   });
+};
+
+/**
+ * Updates a given socket's balance with the given
+ * @param {Number} amount
+ * @param {Socket} socket
+ * @returns the new balance
+ */
+const updateBalance = (amount, socket) => {
+  if (socket.player && socket.player.balance) {
+    socket.player.balance += amount;
+    return socket.player.balance;
+  }
+  return 0;
 };
 
 /**
@@ -179,4 +199,5 @@ module.exports = {
   increaseJackpot,
   sendBettingPlayers,
   sendAllPlayers,
+  updateBalance,
 };
