@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
-    socket.emit("updateBalance", gameService.updateBalance(-data, socket));
+    socket.emit("updateBalance", gameService.updateBalance(-Number(data), socket));
     
     gameService.sendBettingPlayers();
 
