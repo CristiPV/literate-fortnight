@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Wheel from "../components/Wheel";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
+import BetInput from "../components/BetInput";
 export default function MainPage(props) {
+  const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
   const [participants, setParticipants] = useState([
@@ -33,6 +35,10 @@ export default function MainPage(props) {
           <button className={buttonStyle} onClick={() => setSpin(false)}>
             Reset Wheel
           </button>
+          <BetInput socket={props.socket} betAmount={betAmount} setBetAmount={setBetAmount} />
+          <div className="w-max">
+            Player {props.user.name} joined with {props.user.funds} credits !
+          </div>
           <CountDownTimer value={"" + props.countdown} />
         </div>
         <div className="flex flex-row">
