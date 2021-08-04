@@ -56,7 +56,7 @@ export default function SpinningWheel(props) {
 
   useEffect(() => {
     spin();
-  }, []);
+  }, [spin]);
 
   var initCanvas = function initCanvas() {
     var canvas = document.getElementById("canvas");
