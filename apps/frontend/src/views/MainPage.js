@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import Wheel from "../components/Wheel";
-<<<<<<< HEAD
-import UserInputComponent from "../components/UserInputComponent";
-import ListofParticipants from "../components/ListofParticipants";
-
-export default function MainPage() {
-
-=======
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
+import ListofParticipants from "../components/ListofParticipants";
+
+
 export default function MainPage(props) {
->>>>>>> develop
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
   const [participants, setParticipants] = useState([
@@ -18,6 +13,16 @@ export default function MainPage(props) {
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
   ]);
+
+  const addParticipant = (participant) =>{
+    setParticipants((oldArray)=>[
+      ...oldArray,
+      {
+      id: oldArray.length,
+      name: participant,
+      },
+    ]);
+  };
 
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
@@ -34,46 +39,10 @@ export default function MainPage(props) {
 
   return (
     <div className="relative h-full w-full">
-<<<<<<< HEAD
-      {user ? (
-        <div>
-          <div className="flex flex-row">
-            <div className="m-auto w-min"/>
-            <ListofParticipants setUser={setUser}/>
-          </div>          
-          <div className="space-x-4 w-min m-auto flex flex-row p-4">
-            <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-              Spin Wheel
-            </button>
-            <button className={buttonStyle} onClick={() => setSpin(false)}>
-              Reset Wheel
-            </button>
-          </div>
-          <div className="flex flex-row">
-            <div className="m-auto w-min">
-              <Wheel
-                spin={spin}
-                winner={""}
-                postWinner={addWinner}
-                participantsList={participants}
-              />
-            </div>
-            <div className="absolute right-10 rounded h-4/5">
-              <p className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-red-800 to-white">
-                Winning History
-              </p>
-              <div className="h-1 bg-green-300 m-2" />
-              <div className="h-full overflow-y-auto border border-2 border-t-4 border-r-4 border-red-300 p-2 text-white">
-                {winnings.map((item, i) => (
-                  <p key={i} className="text-2xl m-auto w-min p-2">
-                    {item.name}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-=======
       <div>
+        <div className="flex flex-row">
+          <ListofParticipants participants={participants}/>
+        </div>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <button className={buttonStyle} onClick={() => setSpin(!spin)}>
             Spin Wheel
@@ -82,7 +51,6 @@ export default function MainPage(props) {
             Reset Wheel
           </button>
           <CountDownTimer value={"" + props.countdown} />
->>>>>>> develop
         </div>
         <div className="flex flex-row">
           <div className="m-auto w-min">
