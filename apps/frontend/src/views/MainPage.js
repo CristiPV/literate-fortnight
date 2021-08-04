@@ -18,13 +18,9 @@ export default function MainPage(props) {
   ]);
 
   const addParticipant = (participant) =>{
-    setParticipants((oldArray)=>[
-      ...oldArray,
-      {
-      id: oldArray.length,
-      name: participant,
-      },
-    ]);
+    const participantList = props.participant.map((participant)=>{
+      return participantList;
+    });   
   };
 
   const addWinner = (winner) => {

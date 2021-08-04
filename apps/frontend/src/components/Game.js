@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import ListofParticipants from "./ListofParticipants";
-
-import Countdown from "./Countdown";
 
 import socketService from "../services/socketService";
 
@@ -37,6 +34,7 @@ const Game = (props) => {
 
     socketRef.current.on("allPlayers", (data) => {
       console.log("AllPlayers", data);
+      setParticipant(data.username)
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
@@ -50,7 +48,7 @@ const Game = (props) => {
 
   return (
     <>
-    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} />
+    <MainPage socket={socketRef} countdown={countdown} participant={participant} user={{name: username, funds: balance}} winner={winner} />
       {winner ? (
         <div>
           <p>{winner.winner.id}</p>
