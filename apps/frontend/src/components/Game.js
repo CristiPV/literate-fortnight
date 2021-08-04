@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import ListofParticipants from "./ListofParticipants";
 
 import Countdown from "./Countdown";
 
@@ -16,6 +17,7 @@ const Game = (props) => {
 
   // State
   const [countdown, setCountdown] = useState(null);
+  const [participant, setParticipant] = useState([]);
   const [winner, setWinner] = useState("");
 
   useEffect(() => {

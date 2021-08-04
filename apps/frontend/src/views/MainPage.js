@@ -4,6 +4,9 @@ import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
 import BetInput from "../components/BetInput";
 import UserInfo from "../components/UserInfo";
+import ListofParticipants from "../components/ListofParticipants";
+
+
 export default function MainPage(props) {
   const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState(false);
@@ -13,6 +16,17 @@ export default function MainPage(props) {
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
   ]);
+
+  const addParticipant = (participant) =>{
+    setParticipants((oldArray)=>[
+      ...oldArray,
+      {
+      id: oldArray.length,
+      name: participant,
+      },
+    ]);
+  };
+
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
       ...oldArray,
@@ -30,6 +44,7 @@ export default function MainPage(props) {
     <div className="relative h-full w-full">
       <div>
         <WinningHistory winnings={winnings} />
+        <ListofParticipants participants={participants}/>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <UserInfo user={props.user} />
           <BetInput

@@ -1,18 +1,18 @@
 import React from "react";
 
-const WinningHistory = (props) => {
+const ListofParticipants = (props) => {
   return (
-    <div className="absolute right-10 rounded h-4/5 w-96">
+    <div className="absolute left-10 rounded h-4/5 w-96">
       <p className="text-4xl font-extrabold text-red-300 pb-1 m-auto w-max">
-        Winning History
+        Participants
       </p>
       <div className="h-full overflow-y-auto p-2 bg-red-300 bg-opacity-50">
-        {props.winnings.map((item, i) => (
+        {props.participants.map((item, i) => (
           <p
             key={i}
             className="text-2xl m-auto w-min p-2 text-green-300 font-bold"
           >
-            {item.name}
+            {item.item}
           </p>
         ))}
       </div>
@@ -20,4 +20,4 @@ const WinningHistory = (props) => {
   );
 };
 
-export default WinningHistory;
+export default ListofParticipants;

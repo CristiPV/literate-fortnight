@@ -9,4 +9,5 @@ const createSocket = () => {
 };
 
 const socketService = { createSocket };
+
 export default socketService;
