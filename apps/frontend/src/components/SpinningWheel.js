@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function (props) {
+export default function SpinningWheel(props) {
   var segments = props.segments,
     segColors = props.segColors,
     winningSegment = props.winningSegment,
@@ -56,7 +56,7 @@ export default function (props) {
 
   useEffect(() => {
     spin();
-  }, []);
+  }, [spin]);
 
   var initCanvas = function initCanvas() {
     var canvas = document.getElementById("canvas");

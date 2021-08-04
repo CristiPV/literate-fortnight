@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 //import WheelComponent from 'react-wheel-of-prizes'
 import StaticWheel from "./StaticWheel";
