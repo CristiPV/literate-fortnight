@@ -34,11 +34,8 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
-<<<<<<< HEAD
-      console.log("AllPlayers", data);
-      setParticipant(data.username)
-=======
->>>>>>> 2ec34d29717ac190b9b092153d8b986d2be74d58
+      console.log(data);
+      setParticipant(data.username);
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
@@ -46,18 +43,14 @@ const Game = (props) => {
     });
 
     socketRef.current.on("updateBalance", (data) => {
-      console.log(data)
+      console.log(data);
       setBalance(data);
     });
   }, [username, balance]);
 
   return (
     <>
-<<<<<<< HEAD
-    <MainPage socket={socketRef} countdown={countdown} participant={participant} user={{name: username, funds: balance}} winner={winner} />
-=======
-    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} />
->>>>>>> 2ec34d29717ac190b9b092153d8b986d2be74d58
+    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} participant={participant} bettingPlayers={bettingPlayers} />
       {winner ? (
         <div>
           <p>{winner.id}</p>

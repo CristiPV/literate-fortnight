@@ -17,12 +17,13 @@ export default function MainPage(props) {
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
   ]);
+  const getParticipant = () => {
+    const tmp = props.participant.map((participant)=> (
+      {item: participant.username, itemv: 1}
+    ))
+    return tmp;
+  }
 
-  const addParticipant = (participant) =>{
-    const participantList = props.participant.map((participant)=>{
-      return participantList;
-    });   
-  };
 
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
@@ -56,7 +57,7 @@ export default function MainPage(props) {
     <div className="relative h-full w-full">
       <div>
         <WinningHistory winnings={winnings} />
-        <ListofParticipants participants={participants}/>
+        <ListofParticipants participants={getParticipant()}/>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <UserInfo user={props.user} />
           <BetInput
