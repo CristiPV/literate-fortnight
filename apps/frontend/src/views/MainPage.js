@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Wheel from "../components/Wheel";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
+import ListofParticipants from "../components/ListofParticipants";
+
+
 export default function MainPage(props) {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
@@ -10,6 +13,17 @@ export default function MainPage(props) {
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
   ]);
+
+  const addParticipant = (participant) =>{
+    setParticipants((oldArray)=>[
+      ...oldArray,
+      {
+      id: oldArray.length,
+      name: participant,
+      },
+    ]);
+  };
+
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
       ...oldArray,
@@ -26,6 +40,8 @@ export default function MainPage(props) {
   return (
     <div className="relative h-full w-full">
       <div>
+        <div>
+        </div>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <button className={buttonStyle} onClick={() => setSpin(!spin)}>
             Spin Wheel
@@ -36,6 +52,7 @@ export default function MainPage(props) {
           <CountDownTimer value={"" + props.countdown} />
         </div>
         <div className="flex flex-row">
+          <ListofParticipants participants={participants}/>
           <div className="m-auto w-min">
             <Wheel
               spin={spin}

@@ -34,7 +34,7 @@ class UserInputComponent extends React.Component {
         />
         <br />
         <button
-        className="bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max"
+          className="bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max"
           onClick={() =>{
             this.props.setUser({
               name: this.state.username,
