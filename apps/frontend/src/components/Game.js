@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import ListofParticipants from "./ListofParticipants";
 
 import Countdown from "./Countdown";
 
 import socketService from "../services/socketService";
+
+import MainPage from "../views/MainPage";
 
 const Game = (props) => {
   // Props
@@ -13,6 +16,8 @@ const Game = (props) => {
 
   // State
   const [countdown, setCountdown] = useState(null);
+  const [participant, setParticipant] = useState([]);
+  const [winner, setWinner] = useState("");
   const [balance, setBalance] = useState(200);
 
   useEffect(() => {
@@ -21,7 +26,11 @@ const Game = (props) => {
     socketRef.current.on("requestPlayerData", () => {
       socketRef.current.emit("sendPlayerData", { username, balance });
     });
-
+    socketRef.current.on("spinWheel", (data) => {
+      console.log(data);
+      console.log(socketRef.current);
+      setWinner(data);
+    });
     socketRef.current.on("countdown", (data) => {
       setCountdown(data);
     });
@@ -41,6 +50,7 @@ const Game = (props) => {
 
   return (
     <>
+    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} />
       <div>
         Player {username} joined with {balance} credits !
       </div>
@@ -48,6 +58,12 @@ const Game = (props) => {
         Bet 50 credits
       </button>
       <Countdown countdown={countdown} />
+      {winner ? (
+        <div>
+          <p>{winner.winner.id}</p>
+          <p>{socketRef.current.toString()}</p>
+        </div>
+      ) : null}
     </>
   );
 };
