@@ -3,15 +3,14 @@ import React from "react";
 const CountDownTimer = (props) => {
   const renderTimer = () => {
     let tmpArray = [];
-    if (props.value.length === 1) {
+    if (props.value.length === 4 || props.value.length === 1) {
         tmpArray.push("0")
         tmpArray.push(props.value[0])
     } else {
-      for (let index = 0; index < props.value.length; index++) {
+      for (let index = 0; index < props.value.length - 3; index++) {
         tmpArray.push(props.value[index]);
       }
     }
-
     return (
       <div className="flex flex-row space-x-2">
           <p className="text-green-300 text-3xl w-max m-auto ">Time left: </p>

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import Wheel from "../components/Wheel";
-import UserInputComponent from "../components/UserInputComponent";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
-export default function MainPage() {
+export default function MainPage(props) {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
-  const [user, setUser] = useState(undefined);
   const [participants, setParticipants] = useState([
     { item: "One", itemv: 1 },
     { item: "Two", itemv: 2 },
@@ -27,34 +25,28 @@ export default function MainPage() {
 
   return (
     <div className="relative h-full w-full">
-      {user ? (
-        <div>
-          <div className="space-x-4 w-min m-auto flex flex-row p-4">
-            <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-              Spin Wheel
-            </button>
-            <button className={buttonStyle} onClick={() => setSpin(false)}>
-              Reset Wheel
-            </button>
-            <CountDownTimer value={"" + 10}/>
-          </div>
-          <div className="flex flex-row">
-            <div className="m-auto w-min">
-              <Wheel
-                spin={spin}
-                winner={""}
-                postWinner={addWinner}
-                participantsList={participants}
-              />
-            </div>
-            <WinningHistory winnings={winnings}/>
-          </div>
+      <div>
+        <div className="space-x-4 w-min m-auto flex flex-row p-4">
+          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
+            Spin Wheel
+          </button>
+          <button className={buttonStyle} onClick={() => setSpin(false)}>
+            Reset Wheel
+          </button>
+          <CountDownTimer value={"" + props.countdown} />
         </div>
-      ) : (
-        <div className="pt-10 h-min w-min m-auto">
-          <UserInputComponent setUser={setUser} />
+        <div className="flex flex-row">
+          <div className="m-auto w-min">
+            <Wheel
+              spin={spin}
+              winner={""}
+              postWinner={addWinner}
+              participantsList={participants}
+            />
+          </div>
+          <WinningHistory winnings={winnings} />
         </div>
-      )}
+      </div>
     </div>
   );
 }
