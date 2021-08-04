@@ -18,7 +18,7 @@ const Game = (props) => {
   const [countdown, setCountdown] = useState(null);
   const [participant, setParticipant] = useState([]);
   const [winner, setWinner] = useState("");
-  const [balance, setBalance] = useState(200);
+  const [balance, setBalance] = useState(props.balance);
 
   useEffect(() => {
     socketRef.current = socketService.createSocket();
