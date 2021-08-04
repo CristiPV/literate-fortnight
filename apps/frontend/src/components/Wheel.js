@@ -18,7 +18,6 @@ const Wheel = (props) => {
     "#FF9000",
   ];
   const onFinished = (winner) => {
-    console.log(winner);
     props.postWinner(winner);
   };
   return (

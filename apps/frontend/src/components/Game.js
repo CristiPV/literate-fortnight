@@ -16,6 +16,7 @@ const Game = (props) => {
   const [participant, setParticipant] = useState([]);
   const [winner, setWinner] = useState("");
   const [balance, setBalance] = useState(props.balance);
+  const [bettingPlayers, setBettingPlayers] = useState([]);
 
   useEffect(() => {
     socketRef.current = socketService.createSocket();
@@ -33,25 +34,33 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
+<<<<<<< HEAD
       console.log("AllPlayers", data);
       setParticipant(data.username)
+=======
+>>>>>>> 2ec34d29717ac190b9b092153d8b986d2be74d58
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
-      console.log("BettingPlayers", data);
+      setBettingPlayers(data.players);
     });
 
     socketRef.current.on("updateBalance", (data) => {
+      console.log(data)
       setBalance(data);
     });
   }, [username, balance]);
 
   return (
     <>
+<<<<<<< HEAD
     <MainPage socket={socketRef} countdown={countdown} participant={participant} user={{name: username, funds: balance}} winner={winner} />
+=======
+    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} />
+>>>>>>> 2ec34d29717ac190b9b092153d8b986d2be74d58
       {winner ? (
         <div>
-          <p>{winner.winner.id}</p>
+          <p>{winner.id}</p>
         </div>
       ) : null}
     </>
