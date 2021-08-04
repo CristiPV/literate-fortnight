@@ -40,8 +40,7 @@ export default function MainPage(props) {
   return (
     <div className="relative h-full w-full">
       <div>
-        <div className="flex flex-row">
-          <ListofParticipants participants={participants}/>
+        <div>
         </div>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <button className={buttonStyle} onClick={() => setSpin(!spin)}>
@@ -53,6 +52,7 @@ export default function MainPage(props) {
           <CountDownTimer value={"" + props.countdown} />
         </div>
         <div className="flex flex-row">
+          <ListofParticipants participants={participants}/>
           <div className="m-auto w-min">
             <Wheel
               spin={spin}
