@@ -48,6 +48,8 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
+    gameService.sendBettingPlayers();
+
     console.log(
       "Player",
       socket.player,
@@ -60,6 +62,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Socket disconnected", socket.id);
     gameService.sendAllPlayers();
+    gameService.sendBettingPlayers();
   });
 });
 

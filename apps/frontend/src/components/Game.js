@@ -30,6 +30,11 @@ const Game = (props) => {
       console.log("AllPlayers", data);
     });
 
+    socketRef.current.on("bettingPlayers", (data) => {
+      console.log("BettingPlayers", data);
+    });
+
+
     return () => socketRef.current.disconnect();
   }, [username, balance]);
 
