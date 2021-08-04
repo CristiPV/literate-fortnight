@@ -45,10 +45,11 @@ function startGame() {
       };
       players.push(player);
     }
-    const winner = players[chooseItem(players)];
+    let winner = players[chooseItem(players)];
+    winner = {...winner, ...io.sockets.sockets.get(winner.id).player, jackpot};
     console.log("Selected winner:", winner);
 
-    io.to("gameRoom").emit("spinWheel", { winner });
+    io.to("gameRoom").emit("spinWheel", winner);
 
     clearInterval(clockInterval);
     countdown(countdownAmount);
