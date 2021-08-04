@@ -3,6 +3,7 @@ import Wheel from "../components/Wheel";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
 import BetInput from "../components/BetInput";
+import UserInfo from "../components/UserInfo";
 export default function MainPage(props) {
   const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState(false);
@@ -28,17 +29,14 @@ export default function MainPage(props) {
   return (
     <div className="relative h-full w-full">
       <div>
+        <WinningHistory winnings={winnings} />
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
-          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-            Spin Wheel
-          </button>
-          <button className={buttonStyle} onClick={() => setSpin(false)}>
-            Reset Wheel
-          </button>
-          <BetInput socket={props.socket} betAmount={betAmount} setBetAmount={setBetAmount} />
-          <div className="w-max">
-            Player {props.user.name} joined with {props.user.funds} credits !
-          </div>
+          <UserInfo user={props.user} />
+          <BetInput
+            socket={props.socket}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+          />
           <CountDownTimer value={"" + props.countdown} />
         </div>
         <div className="flex flex-row">
@@ -50,7 +48,14 @@ export default function MainPage(props) {
               participantsList={participants}
             />
           </div>
-          <WinningHistory winnings={winnings} />
+        </div>
+        <div className="space-x-4 w-min m-auto flex flex-row p-4">
+          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
+            Spin Wheel
+          </button>
+          <button className={buttonStyle} onClick={() => setSpin(false)}>
+            Reset Wheel
+          </button>
         </div>
       </div>
     </div>
