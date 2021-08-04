@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Wheel from "../components/Wheel";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
+import BetInput from "../components/BetInput";
+import UserInfo from "../components/UserInfo";
 import ListofParticipants from "../components/ListofParticipants";
 
 
 export default function MainPage(props) {
+  const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
   const [participants, setParticipants] = useState([
@@ -40,19 +43,18 @@ export default function MainPage(props) {
   return (
     <div className="relative h-full w-full">
       <div>
-        <div>
-        </div>
+        <WinningHistory winnings={winnings} />
+        <ListofParticipants participants={participants}/>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
-          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-            Spin Wheel
-          </button>
-          <button className={buttonStyle} onClick={() => setSpin(false)}>
-            Reset Wheel
-          </button>
+          <UserInfo user={props.user} />
+          <BetInput
+            socket={props.socket}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+          />
           <CountDownTimer value={"" + props.countdown} />
         </div>
         <div className="flex flex-row">
-          <ListofParticipants participants={participants}/>
           <div className="m-auto w-min">
             <Wheel
               spin={spin}
@@ -61,7 +63,14 @@ export default function MainPage(props) {
               participantsList={participants}
             />
           </div>
-          <WinningHistory winnings={winnings} />
+        </div>
+        <div className="space-x-4 w-min m-auto flex flex-row p-4">
+          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
+            Spin Wheel
+          </button>
+          <button className={buttonStyle} onClick={() => setSpin(false)}>
+            Reset Wheel
+          </button>
         </div>
       </div>
     </div>

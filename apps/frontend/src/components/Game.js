@@ -18,7 +18,7 @@ const Game = (props) => {
   const [countdown, setCountdown] = useState(null);
   const [participant, setParticipant] = useState([]);
   const [winner, setWinner] = useState("");
-  const [balance, setBalance] = useState(200);
+  const [balance, setBalance] = useState(props.balance);
 
   useEffect(() => {
     socketRef.current = socketService.createSocket();
@@ -51,17 +51,9 @@ const Game = (props) => {
   return (
     <>
     <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} />
-      <div>
-        Player {username} joined with {balance} credits !
-      </div>
-      <button onClick={() => socketRef.current.emit("placedBet", 50)}>
-        Bet 50 credits
-      </button>
-      <Countdown countdown={countdown} />
       {winner ? (
         <div>
           <p>{winner.winner.id}</p>
-          <p>{socketRef.current.toString()}</p>
         </div>
       ) : null}
     </>
