@@ -11,7 +11,7 @@ const ListofParticipants = (props) => {
                 <div className="h-full overflow-y-auto border border-2 border-t-4 border-r-4 border-red-300 p-2 text-white">
                     {props.participants.map((item, i) => (
                     <p key={i} className="text-2xl m-auto w-min p-2 text-green-300 font-bold">
-                        {item.name}
+                        {item.item}
                     </p>
                     ))}
                 </div>
