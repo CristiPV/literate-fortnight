@@ -28,6 +28,8 @@ io.on("connection", (socket) => {
   socket.on("sendPlayerData", (data) => {
     socket.player = data;
 
+    gameService.sendAllPlayers();
+    
     console.log("Player connected", socket.player);
   });
 
@@ -57,6 +59,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Socket disconnected", socket.id);
+    gameService.sendAllPlayers();
   });
 });
 
