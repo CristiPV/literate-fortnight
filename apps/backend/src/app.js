@@ -16,6 +16,7 @@ app.use(index);
 const httpServer = http.createServer(app);
 const io = socketService.createIo(httpServer);
 const gameService = require("./services/gameService.js");
+const { RSA_NO_PADDING } = require("constants");
 
 // IO
 io.on("connection", (socket) => {
@@ -23,6 +24,16 @@ io.on("connection", (socket) => {
 
   // Request the player data on connection
   socket.emit("requestPlayerData");
+
+  // Request a list of betting players
+  socket.on("requestPlayers", (bettingOnly) => {
+      console.log(bettingOnly);
+    if (bettingOnly) {
+      gameService.sendBettingPlayers();
+    } else {
+      gameService.sendAllPlayers();
+    }
+  });
 
   // Saves the player data in the socket
   socket.on("sendPlayerData", (data) => {
@@ -55,8 +66,11 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
-    socket.emit("updateBalance", gameService.updateBalance(-Number(data), socket));
-    
+    socket.emit(
+      "updateBalance",
+      gameService.updateBalance(-Number(data), socket)
+    );
+
     gameService.sendBettingPlayers();
 
     console.log(

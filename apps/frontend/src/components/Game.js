@@ -36,6 +36,7 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
+      console.log(data);
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
@@ -61,6 +62,13 @@ const Game = (props) => {
           <p>{winner.id}</p>
         </div>
       ) : null}
+      {/* buttons for testing the requestPlayers event. 
+          It takes in a boolean argument (bettingOnly):
+           - true for betting players only
+           - false for all players
+      */}
+      <button onClick={() => {socketRef.current.emit("requestPlayers", true)}}> Betting players </button>
+      <button onClick={() => {socketRef.current.emit("requestPlayers", false)}}> All players </button>
     </>
   );
 };
