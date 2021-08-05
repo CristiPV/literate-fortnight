@@ -24,6 +24,12 @@ io.on("connection", (socket) => {
   // Request the player data on connection
   socket.emit("requestPlayerData");
 
+  // Request a list of betting players
+  socket.on("requestPlayers", () => {
+    gameService.sendBettingPlayers();
+    gameService.sendAllPlayers();
+  });
+
   // Saves the player data in the socket
   socket.on("sendPlayerData", (data) => {
     socket.player = data;
@@ -55,8 +61,11 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
-    socket.emit("updateBalance", gameService.updateBalance(-Number(data), socket));
-    
+    socket.emit(
+      "updateBalance",
+      gameService.updateBalance(-Number(data), socket)
+    );
+
     gameService.sendBettingPlayers();
 
     console.log(
