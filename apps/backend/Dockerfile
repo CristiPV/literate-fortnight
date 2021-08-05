@@ -1,19 +1,18 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:14
 
-# set working directory
-WORKDIR /literate-fortnight-backend
+# Create app directory
+WORKDIR /usr/src/app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /literate-fortnight-backend/node_modules/.bin:$PATH
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent
+RUN npm install
 
-# add app
-COPY . ./
+# Bundle app source
+COPY . .
 
 # start app
 CMD ["npm", "start"]
