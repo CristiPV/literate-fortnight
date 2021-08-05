@@ -46,10 +46,7 @@ function startGame() {
     };
     console.log("Selected winner:", winner);
 
-    winnerSocket.emit(
-      "updateBalance",
-      updateBalance(jackpot, winnerSocket)
-    );
+    winnerSocket.emit("updateBalance", updateBalance(jackpot, winnerSocket));
 
     io.emit("spinWheel", winner);
 

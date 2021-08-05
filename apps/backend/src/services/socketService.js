@@ -4,7 +4,7 @@ let io = null;
 
 /**
  * Creates the io for a given server and returns it.
- * @param {http.Server} server 
+ * @param {http.Server} server
  * @returns io
  */
 const createIo = (server) => {
