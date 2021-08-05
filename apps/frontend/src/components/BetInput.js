@@ -5,7 +5,6 @@ const BetInput = (props) => {
     e.preventDefault();
     const betAmount = props.betAmount;
     const funds = props.currentBalance;
-    console.log(`betAM: ${betAmount}\t funds: ${funds}`);
     if (betAmount < funds && betAmount > 0) {
       props.socket.current.emit("placedBet", betAmount);
     } else {
