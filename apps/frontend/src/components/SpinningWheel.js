@@ -55,6 +55,7 @@ export default function SpinningWheel(props) {
   };
 
   useEffect(() => {
+    console.log('Winning segment: ' + winningSegment)
     spin();
   }, [spin]);
 
@@ -125,6 +126,7 @@ export default function SpinningWheel(props) {
       clearInterval(timerHandle);
       timerHandle = 0;
       angleDelta = 0;
+      props.setDoneSpinning(true);
     }
   };
 

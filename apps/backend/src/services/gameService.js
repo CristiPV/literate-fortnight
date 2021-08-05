@@ -51,7 +51,7 @@ function startGame() {
       updateBalance(jackpot, winnerSocket)
     );
 
-    io.to("gameRoom").emit("spinWheel", winner);
+    io.emit("spinWheel", winner);
 
     clearInterval(clockInterval);
     countdown(countdownAmount);
@@ -145,7 +145,7 @@ const sendAllPlayers = () => {
  */
 const updateBalance = (amount, socket) => {
   if (socket.player && socket.player.balance) {
-    socket.player.balance += amount;
+    socket.player.balance = Number(socket.player.balance) + Number(amount);
     return socket.player.balance;
   }
   return 0;
