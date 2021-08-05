@@ -13,7 +13,7 @@ const Game = (props) => {
 
   // State
   const [countdown, setCountdown] = useState(null);
-  const [participant, setParticipant] = useState([]);
+  const [participants, setParticipants] = useState([]);
   const [winner, setWinner] = useState("");
   const [balance, setBalance] = useState(props.balance);
   const [bettingPlayers, setBettingPlayers] = useState([]);
@@ -35,7 +35,7 @@ const Game = (props) => {
 
     socketRef.current.on("allPlayers", (data) => {
       console.log(data);
-      setParticipant(data.username);
+      setParticipants(data.players);
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
@@ -50,7 +50,7 @@ const Game = (props) => {
 
   return (
     <>
-    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} participant={participant} bettingPlayers={bettingPlayers} />
+    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} participants={participants}/>
       {winner ? (
         <div>
           <p>{winner.id}</p>

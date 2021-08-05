@@ -13,12 +13,14 @@ export default function MainPage(props) {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
 
-  const mapToParticipantValues = () => {
-    const p = props.participant.map((participant)=> (
-      {item: participant.username, itemv: participant.id}
+  
+  const mapToParticipantsValues = () => {
+    const p = props.participants.map((participant)=> (
+      {item: participant.player, id: participant.id}
     ))
     return p;
   }
+  
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
       ...oldArray,
@@ -35,6 +37,10 @@ export default function MainPage(props) {
     ))
     return tmp
   }
+  useEffect(()=>{
+    
+    console.log(props.participants)
+  },[props.participants])
 
   useEffect(() => {
     setReload(reload + 1)
@@ -51,7 +57,7 @@ export default function MainPage(props) {
     <div className="relative h-full w-full">
       <div>
         <WinningHistory winnings={winnings} />
-        <ListofParticipants participants={mapToParticipantValues()}/>
+        <ListofParticipants participants={mapToParticipantsValues()}/>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <UserInfo user={props.user} />
           <BetInput
