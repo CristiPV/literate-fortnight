@@ -50,6 +50,8 @@ const Game = (props) => {
     socketRef.current.on("updateBalance", (data) => {
       setBalance(data);
     });
+
+    socketRef.current.emit("requestPlayers")
   }, [username, balance]);
 
   return (
@@ -60,12 +62,6 @@ const Game = (props) => {
           <p>{winner.id}</p>
         </div>
       ) : null}
-      {/* buttons for testing the requestPlayers event. 
-          It takes in a boolean argument (bettingOnly):
-           - true for betting players only
-           - false for all players
-      */}
-      <button onClick={() => {socketRef.current.emit("requestPlayers")}}> Players list </button>
     </>
   );
 };

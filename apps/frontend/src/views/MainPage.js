@@ -103,14 +103,6 @@ export default function MainPage(props) {
             
           </div>
         </div>
-        <div className="space-x-4 w-min m-auto flex flex-row p-4">
-          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-            Spin Wheel
-          </button>
-          <button className={buttonStyle} onClick={() => setSpin(false)}>
-            Reset Wheel
-          </button>
-        </div>
       </div>
     </div>
   );
