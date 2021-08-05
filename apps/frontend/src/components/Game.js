@@ -21,6 +21,10 @@ const Game = (props) => {
   useEffect(() => {
     socketRef.current = socketService.createSocket();
 
+    return () => socketRef.current.disconnect();
+  }, []);
+  
+  useEffect(() => {
     socketRef.current.on("requestPlayerData", () => {
       socketRef.current.emit("sendPlayerData", { username, balance });
     });
@@ -32,29 +36,33 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
-      console.log(data.players)
+      console.log(data.players);
       setParticipants(data.players);
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
-      if(data.players.length !== 0)
-      {
+      if (data.players.length !== 0) {
         setBettingPlayers(data.players);
       }
-      
-      
     });
 
     socketRef.current.on("updateBalance", (data) => {
       setBalance(data);
     });
 
-    socketRef.current.emit("requestPlayers")
+    socketRef.current.emit("requestPlayers");
   }, [username, balance]);
 
   return (
     <>
-    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} participants={participants}/>
+      <MainPage
+        socket={socketRef}
+        countdown={countdown}
+        user={{ name: username, funds: balance }}
+        winner={winner}
+        bettingPlayers={bettingPlayers}
+        participants={participants}
+      />
       {winner ? (
         <div>
           <p>{winner.id}</p>
