@@ -67,8 +67,7 @@ const Game = (props) => {
            - true for betting players only
            - false for all players
       */}
-      <button onClick={() => {socketRef.current.emit("requestPlayers", true)}}> Betting players </button>
-      <button onClick={() => {socketRef.current.emit("requestPlayers", false)}}> All players </button>
+      <button onClick={() => {socketRef.current.emit("requestPlayers")}}> Players list </button>
     </>
   );
 };

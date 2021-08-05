@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
   socket.emit("requestPlayerData");
 
   // Request a list of betting players
-  socket.on("requestPlayers", (bettingOnly) => {
+  socket.on("requestPlayers", () => {
     gameService.sendBettingPlayers();
     gameService.sendAllPlayers();
   });
