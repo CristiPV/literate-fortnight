@@ -6,21 +6,21 @@ import BetInput from "../components/BetInput";
 import UserInfo from "../components/UserInfo";
 import ListofParticipants from "../components/ListofParticipants";
 
-
 export default function MainPage(props) {
   const [reload, setReload] = useState(1);
   const [betAmount, setBetAmount] = useState(50);
-  const [spin, setSpin] = useState({spin: false, winner: undefined});
+  const [spin, setSpin] = useState({ spin: false, winner: undefined });
   const [winnings, setWinnings] = useState([]);
   const [doneSpinning, setDoneSpinning] = useState(false);
 
   const mapToParticipantsValues = () => {
-    const p = props.participants.map((participant)=> (
-      {item: participant.username, id: participant.id}
-    ))
+    const p = props.participants.map((participant) => ({
+      item: participant.username,
+      id: participant.id,
+    }));
     return p;
-  }
-  
+  };
+
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
       ...oldArray,
@@ -32,36 +32,31 @@ export default function MainPage(props) {
   };
 
   const mapToWheelValues = () => {
-    const tmp = props.bettingPlayers.map((player) => (
-      {item: player.id, itemv: 1}
-    ))
-    return tmp
-  }
+    const tmp = props.bettingPlayers.map((player) => ({
+      item: player.id,
+      itemv: 1,
+    }));
+    return tmp;
+  };
 
   useEffect(() => {
-    setSpin({spin: false, winner: undefined})
-    setReload(reload + 1)
-  },[props.bettingPlayers])
+    setSpin({ spin: false, winner: undefined });
+    setReload(reload + 1);
+  }, [props.bettingPlayers]);
 
-  
   useEffect(() => {
-    console.log(props.winner)
-    if(props.winner.id)
-    {
-      setSpin({spin: true, winner: props.winner.id})
+    console.log(props.winner);
+    if (props.winner.id) {
+      setSpin({ spin: true, winner: props.winner.id });
     }
-    
-  },[props.winner])
+  }, [props.winner]);
 
   useEffect(() => {
-    if(doneSpinning)
-    {
-      addWinner(props.winner.id)
+    if (doneSpinning) {
+      addWinner(props.winner.id);
       setDoneSpinning(false);
     }
-    
-  }, [doneSpinning])
-  
+  }, [doneSpinning]);
 
   const buttonStyle =
     "bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max";
@@ -70,12 +65,13 @@ export default function MainPage(props) {
     <div className="relative h-full w-full">
       <div>
         <WinningHistory winnings={winnings} />
-        <ListofParticipants participants={mapToParticipantsValues()}/>
+        <ListofParticipants participants={mapToParticipantsValues()} />
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <UserInfo user={props.user} />
           <BetInput
             socket={props.socket}
             betAmount={betAmount}
+            currentBalance={props.user.funds}
             setBetAmount={setBetAmount}
           />
           <CountDownTimer value={"" + props.countdown} />
@@ -84,15 +80,16 @@ export default function MainPage(props) {
           <div className="m-auto w-min">
             {props.bettingPlayers.length > 0 ? (
               <Wheel
-              key={reload}
-              spin={spin}
-              doneSpinning={doneSpinning}
-              setDoneSpinning={setDoneSpinning}
-              postWinner={addWinner}
-              participantsList={mapToWheelValues()}
-            />
-            ): <p>W8ing for more players</p>}
-            
+                key={reload}
+                spin={spin}
+                doneSpinning={doneSpinning}
+                setDoneSpinning={setDoneSpinning}
+                postWinner={addWinner}
+                participantsList={mapToWheelValues()}
+              />
+            ) : (
+              <p>W8ing for more players</p>
+            )}
           </div>
         </div>
       </div>

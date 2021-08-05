@@ -1,6 +1,16 @@
 import React from "react";
 
 const BetInput = (props) => {
+  const placeBet = (e) => {
+    e.preventDefault();
+    const betAmount = props.betAmount;
+    const funds = props.currentBalance;
+    if (betAmount < funds && betAmount > 0) {
+      props.socket.current.emit("placedBet", betAmount);
+    } else {
+      window.alert(`Not enough funds!`);
+    }
+  };
   return (
     <div className="flex flex-row">
       <input
@@ -10,7 +20,7 @@ const BetInput = (props) => {
       />
       <button
         className="w-20 bg-red-300 hover:bg-pink-400 rounded-r pt-2 pb-2 pl-3 pr-3 w-max overflow-hidden"
-        onClick={() => props.socket.current.emit("placedBet", props.betAmount)}
+        onClick={placeBet}
       >
         Bet
       </button>
