@@ -10,7 +10,7 @@ import ListofParticipants from "../components/ListofParticipants";
 export default function MainPage(props) {
   const [reload, setReload] = useState(1);
   const [betAmount, setBetAmount] = useState(50);
-  const [spin, setSpin] = useState(false);
+  const [spin, setSpin] = useState({spin: false, winner: undefined});
   const [winnings, setWinnings] = useState([]);
   const [participants, setParticipants] = useState([
     { item: "One", itemv: 1 },
@@ -47,6 +47,7 @@ export default function MainPage(props) {
   }
 
   useEffect(() => {
+    setSpin({spin: false, winner: undefined})
     setReload(reload + 1)
   },[props.bettingPlayers])
 
@@ -55,10 +56,19 @@ export default function MainPage(props) {
     console.log(props.winner)
     if(props.winner.id)
     {
-      setSpin(true)
+      setSpin({spin: true, winner: props.winner.id})
     }
     
   },[props.winner])
+
+  useEffect(() => {
+    if(doneSpinning)
+    {
+      addWinner(props.winner.id)
+      setDoneSpinning(false);
+    }
+    
+  }, [doneSpinning])
   
 
   const buttonStyle =
@@ -86,7 +96,6 @@ export default function MainPage(props) {
               spin={spin}
               doneSpinning={doneSpinning}
               setDoneSpinning={setDoneSpinning}
-              winner={props.winner.id}
               postWinner={addWinner}
               participantsList={mapToWheelValues()}
             />

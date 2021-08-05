@@ -28,7 +28,6 @@ const Game = (props) => {
       socketRef.current.emit("sendPlayerData", { username, balance });
     });
     socketRef.current.on("spinWheel", (data) => {
-      console.log(data);
       setWinner(data);
     });
     socketRef.current.on("countdown", (data) => {
@@ -41,7 +40,6 @@ const Game = (props) => {
     socketRef.current.on("bettingPlayers", (data) => {
       if(data.players.length !== 0)
       {
-        console.log(data)
         setBettingPlayers(data.players);
       }
       
