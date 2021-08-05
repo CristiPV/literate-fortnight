@@ -12,22 +12,14 @@ export default function MainPage(props) {
   const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
-  const [participants, setParticipants] = useState([
-    { item: "One", itemv: 1 },
-    { item: "Two", itemv: 2 },
-    { item: "Three", itemv: 3 },
-  ]);
 
-  const addParticipant = (participant) =>{
-    setParticipants((oldArray)=>[
-      ...oldArray,
-      {
-      id: oldArray.length,
-      name: participant,
-      },
-    ]);
-  };
-
+  const mapToParticipantsValues = () => {
+    const p = props.participants.map((participant)=> (
+      {item: participant.username, id: participant.id}
+    ))
+    return p;
+  }
+  
   const addWinner = (winner) => {
     setWinnings((oldArray) => [
       ...oldArray,
@@ -65,7 +57,7 @@ export default function MainPage(props) {
     <div className="relative h-full w-full">
       <div>
         <WinningHistory winnings={winnings} />
-        <ListofParticipants participants={participants}/>
+        <ListofParticipants participants={mapToParticipantsValues()}/>
         <div className="space-x-4 w-min m-auto flex flex-row p-4">
           <UserInfo user={props.user} />
           <BetInput
