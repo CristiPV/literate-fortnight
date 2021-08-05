@@ -51,7 +51,7 @@ function startGame() {
       updateBalance(jackpot, winnerSocket)
     );
 
-    io.to("gameRoom").emit("spinWheel", winner);
+    io.emit("spinWheel", winner);
 
     clearInterval(clockInterval);
     countdown(countdownAmount);
