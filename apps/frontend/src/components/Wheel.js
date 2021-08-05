@@ -35,6 +35,8 @@ const Wheel = (props) => {
           size={300}
           upDuration={100}
           downDuration={1000}
+          doneSpinning={props.doneSpinning}
+          setDoneSpinning={props.setDoneSpinning}
         />
       ) : (
         <StaticWheel

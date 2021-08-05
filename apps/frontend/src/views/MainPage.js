@@ -17,6 +17,7 @@ export default function MainPage(props) {
     { item: "Two", itemv: 2 },
     { item: "Three", itemv: 3 },
   ]);
+  const [doneSpinning, setDoneSpinning] = useState(false);
 
   const addParticipant = (participant) =>{
     setParticipants((oldArray)=>[
@@ -49,6 +50,7 @@ export default function MainPage(props) {
     setReload(reload + 1)
   },[props.bettingPlayers])
 
+  
   useEffect(() => {
     console.log(props.winner)
     if(props.winner.id)
@@ -57,6 +59,7 @@ export default function MainPage(props) {
     }
     
   },[props.winner])
+  
 
   const buttonStyle =
     "bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max";
@@ -81,7 +84,9 @@ export default function MainPage(props) {
               <Wheel
               key={reload}
               spin={spin}
-              winner={""}
+              doneSpinning={doneSpinning}
+              setDoneSpinning={setDoneSpinning}
+              winner={props.winner.id}
               postWinner={addWinner}
               participantsList={mapToWheelValues()}
             />
