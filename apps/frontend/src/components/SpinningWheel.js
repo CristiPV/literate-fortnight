@@ -125,6 +125,7 @@ export default function SpinningWheel(props) {
       clearInterval(timerHandle);
       timerHandle = 0;
       angleDelta = 0;
+      props.setDoneSpinning(true);
     }
   };
 

@@ -18,7 +18,6 @@ const Wheel = (props) => {
     "#FF9000",
   ];
   const onFinished = (winner) => {
-    console.log(winner);
     props.postWinner(winner);
   };
   return (
@@ -36,6 +35,8 @@ const Wheel = (props) => {
           size={300}
           upDuration={100}
           downDuration={1000}
+          doneSpinning={props.doneSpinning}
+          setDoneSpinning={props.setDoneSpinning}
         />
       ) : (
         <StaticWheel
