@@ -34,7 +34,6 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
-      console.log(data);
       setParticipants(data.players);
     });
 

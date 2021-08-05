@@ -13,10 +13,9 @@ export default function MainPage(props) {
   const [spin, setSpin] = useState(false);
   const [winnings, setWinnings] = useState([]);
 
-  
   const mapToParticipantsValues = () => {
     const p = props.participants.map((participant)=> (
-      {item: participant.player, id: participant.id}
+      {item: participant.username, id: participant.id}
     ))
     return p;
   }
@@ -37,10 +36,6 @@ export default function MainPage(props) {
     ))
     return tmp
   }
-  useEffect(()=>{
-    
-    console.log(props.participants)
-  },[props.participants])
 
   useEffect(() => {
     setReload(reload + 1)
