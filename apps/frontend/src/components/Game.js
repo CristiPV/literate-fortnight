@@ -50,7 +50,7 @@ const Game = (props) => {
     });
 
     socketRef.current.emit("requestPlayers")
-  }, [username, balance]);
+  }, []);
 
   return (
     <>

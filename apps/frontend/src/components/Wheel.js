@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 //import WheelComponent from 'react-wheel-of-prizes'
 import StaticWheel from "./StaticWheel";
@@ -6,6 +6,9 @@ import SpinningWheel from "./SpinningWheel";
 import "react-wheel-of-prizes/dist/index.css";
 
 const Wheel = (props) => {
+  const [size, setSize] = useState(300);
+  const [inc, setInc] = useState(0);
+  const wheelContainerRef = useRef();
   const wheelText = "Jackpot";
   const segColors = [
     "#EE4040",
@@ -20,8 +23,25 @@ const Wheel = (props) => {
   const onFinished = (winner) => {
     //props.postWinner(winner);
   };
+
+  const handleResize = () => {
+    try {
+      console.log(wheelContainerRef.current.clientHeight)
+      setSize(wheelContainerRef.current.getBoundingClientRect().width > 600 ? 600 : wheelContainerRef.current.getBoundingClientRect().width)
+    } catch (error){
+
+    }
+      
+  };
+
+  useEffect(() => {
+    setSize(wheelContainerRef.current.getBoundingClientRect().width > 600 ? 600 : wheelContainerRef.current.getBoundingClientRect().width)
+    window.addEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div>
+    <div className="w-full overflow-hidden" ref={wheelContainerRef}>
+      <button onClick={()=>setInc(inc + 1)}>Reset</button>
       {props.spin.spin ? (
         <SpinningWheel
           segments={props.participantsList}
@@ -32,7 +52,7 @@ const Wheel = (props) => {
           contrastColor="white"
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={300}
+          size={size - 100}
           upDuration={100}
           downDuration={1000}
           doneSpinning={props.doneSpinning}
@@ -40,6 +60,7 @@ const Wheel = (props) => {
         />
       ) : (
         <StaticWheel
+          key={inc}
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.winner}
@@ -48,7 +69,7 @@ const Wheel = (props) => {
           contrastColor="white"
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={300}
+          size={size - 100}
           upDuration={100}
           downDuration={1000}
         />
