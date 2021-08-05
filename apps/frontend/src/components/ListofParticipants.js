@@ -3,7 +3,6 @@ import React from "react";
 const ListofParticipants = (props) => {
   var list = props.participants;
 
-
   return (
     <div className="absolute left-10 rounded h-4/5 w-96">
       <p className="text-4xl font-extrabold text-red-300 pb-1 m-auto w-max">
