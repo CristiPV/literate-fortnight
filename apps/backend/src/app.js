@@ -5,6 +5,7 @@ const express = require("express");
 
 // Environment variables
 const PORT = process.env.PORT || 8080;
+const TAX = process.env.TAX || 0.1;
 
 // Routes
 const index = require("./routes/index").router;
@@ -48,12 +49,14 @@ io.on("connection", (socket) => {
 
   // Saves the bet amount in the player data and places the socket in the game room
   socket.on("placedBet", (data) => {
+    // Adds the bet amount to the player's data
     if (!socket.player) {
       socket.player = {};
     }
     socket.player.betAmount = data;
     socket.join("gameRoom");
 
+    // Increases the Jackpot by the bet amount
     gameService.increaseJackpot(data);
 
     // Check if game can start
@@ -61,11 +64,14 @@ io.on("connection", (socket) => {
       gameService.startGame();
     }
 
+    // Updates the player's balance ( takes away the bet and the tax )
+    const tax = Math.ceil(data * Number(TAX));
     socket.emit(
       "updateBalance",
-      gameService.updateBalance(-Number(data), socket)
+      gameService.updateBalance(-(Number(data) + Number(tax)), socket)
     );
 
+    // Emits the list of all betting players
     gameService.sendBettingPlayers();
 
     console.log(
