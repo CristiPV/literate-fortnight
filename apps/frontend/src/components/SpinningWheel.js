@@ -55,6 +55,7 @@ export default function SpinningWheel(props) {
   };
 
   useEffect(() => {
+    console.log('Winning segment: ' + winningSegment)
     spin();
   }, [spin]);
 

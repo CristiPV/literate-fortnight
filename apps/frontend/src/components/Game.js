@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import ListofParticipants from "./ListofParticipants";
-
-import Countdown from "./Countdown";
 
 import socketService from "../services/socketService";
 
@@ -16,7 +13,7 @@ const Game = (props) => {
 
   // State
   const [countdown, setCountdown] = useState(null);
-  const [participant, setParticipant] = useState([]);
+  const [participants, setParticipants] = useState([]);
   const [winner, setWinner] = useState("");
   const [balance, setBalance] = useState(props.balance);
   const [bettingPlayers, setBettingPlayers] = useState([]);
@@ -28,7 +25,6 @@ const Game = (props) => {
       socketRef.current.emit("sendPlayerData", { username, balance });
     });
     socketRef.current.on("spinWheel", (data) => {
-      console.log(data);
       setWinner(data);
     });
     socketRef.current.on("countdown", (data) => {
@@ -36,12 +32,13 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
+      console.log(data.players)
+      setParticipants(data.players);
     });
 
     socketRef.current.on("bettingPlayers", (data) => {
       if(data.players.length !== 0)
       {
-        console.log(data)
         setBettingPlayers(data.players);
       }
       
@@ -51,11 +48,13 @@ const Game = (props) => {
     socketRef.current.on("updateBalance", (data) => {
       setBalance(data);
     });
+
+    socketRef.current.emit("requestPlayers")
   }, [username, balance]);
 
   return (
     <>
-    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} />
+    <MainPage socket={socketRef} countdown={countdown} user={{name: username, funds: balance}} winner={winner} bettingPlayers={bettingPlayers} participants={participants}/>
       {winner ? (
         <div>
           <p>{winner.id}</p>
