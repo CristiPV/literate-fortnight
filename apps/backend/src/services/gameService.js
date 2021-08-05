@@ -8,7 +8,7 @@ let jackpot = 0;
 let countdownInterval = startTimeout;
 const countdownAmount = 1000; // 1000 milliseconds ( 1 second )
 
-const increaseJackpot = (amount) => (jackpot += amount);
+const increaseJackpot = (amount) => (jackpot = Number(jackpot) + Number(amount));
 const resetJackpot = () => (jackpot = 0);
 
 const countdown = (time) => {
@@ -46,12 +46,9 @@ function startGame() {
     };
     console.log("Selected winner:", winner);
 
-    winnerSocket.emit(
-      "updateBalance",
-      updateBalance(jackpot, winnerSocket)
-    );
+    winnerSocket.emit("updateBalance", updateBalance(jackpot, winnerSocket));
 
-    io.to("gameRoom").emit("spinWheel", winner);
+    io.emit("spinWheel", winner);
 
     clearInterval(clockInterval);
     countdown(countdownAmount);
@@ -145,7 +142,7 @@ const sendAllPlayers = () => {
  */
 const updateBalance = (amount, socket) => {
   if (socket.player && socket.player.balance) {
-    socket.player.balance += amount;
+    socket.player.balance = Number(socket.player.balance) + Number(amount);
     return socket.player.balance;
   }
   return 0;

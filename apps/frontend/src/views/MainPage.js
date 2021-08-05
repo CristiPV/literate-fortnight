@@ -10,8 +10,9 @@ import ListofParticipants from "../components/ListofParticipants";
 export default function MainPage(props) {
   const [reload, setReload] = useState(1);
   const [betAmount, setBetAmount] = useState(50);
-  const [spin, setSpin] = useState(false);
+  const [spin, setSpin] = useState({spin: false, winner: undefined});
   const [winnings, setWinnings] = useState([]);
+  const [doneSpinning, setDoneSpinning] = useState(false);
 
   const mapToParticipantsValues = () => {
     const p = props.participants.map((participant)=> (
@@ -38,12 +39,29 @@ export default function MainPage(props) {
   }
 
   useEffect(() => {
+    setSpin({spin: false, winner: undefined})
     setReload(reload + 1)
   },[props.bettingPlayers])
 
+  
   useEffect(() => {
-    setSpin(true)
+    console.log(props.winner)
+    if(props.winner.id)
+    {
+      setSpin({spin: true, winner: props.winner.id})
+    }
+    
   },[props.winner])
+
+  useEffect(() => {
+    if(doneSpinning)
+    {
+      addWinner(props.winner.id)
+      setDoneSpinning(false);
+    }
+    
+  }, [doneSpinning])
+  
 
   const buttonStyle =
     "bg-red-300 hover:bg-pink-400 rounded pt-2 pb-2 pl-3 pr-3 w-max";
@@ -68,21 +86,14 @@ export default function MainPage(props) {
               <Wheel
               key={reload}
               spin={spin}
-              winner={""}
+              doneSpinning={doneSpinning}
+              setDoneSpinning={setDoneSpinning}
               postWinner={addWinner}
               participantsList={mapToWheelValues()}
             />
             ): <p>W8ing for more players</p>}
             
           </div>
-        </div>
-        <div className="space-x-4 w-min m-auto flex flex-row p-4">
-          <button className={buttonStyle} onClick={() => setSpin(!spin)}>
-            Spin Wheel
-          </button>
-          <button className={buttonStyle} onClick={() => setSpin(false)}>
-            Reset Wheel
-          </button>
         </div>
       </div>
     </div>

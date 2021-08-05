@@ -18,15 +18,15 @@ const Wheel = (props) => {
     "#FF9000",
   ];
   const onFinished = (winner) => {
-    props.postWinner(winner);
+    //props.postWinner(winner);
   };
   return (
     <div>
-      {props.spin ? (
+      {props.spin.spin ? (
         <SpinningWheel
           segments={props.participantsList}
           segColors={segColors}
-          winningSegment={props.winner}
+          winningSegment={props.spin.winner}
           onFinished={(winner) => onFinished(winner)}
           primaryColor="black"
           contrastColor="white"
@@ -35,6 +35,8 @@ const Wheel = (props) => {
           size={300}
           upDuration={100}
           downDuration={1000}
+          doneSpinning={props.doneSpinning}
+          setDoneSpinning={props.setDoneSpinning}
         />
       ) : (
         <StaticWheel
