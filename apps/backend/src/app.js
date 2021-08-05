@@ -5,6 +5,7 @@ const express = require("express");
 
 // Environment variables
 const PORT = process.env.PORT || 8080;
+const TAX = process.env.TAX || 0.1;
 
 // Routes
 const index = require("./routes/index").router;
@@ -58,7 +59,7 @@ io.on("connection", (socket) => {
     }
 
     // Updates the player's balance ( takes away the bet and the tax )
-    const tax = Math.ceil(data * 0.01);
+    const tax = Math.ceil(data * Number(TAX));
     socket.emit(
       "updateBalance",
       gameService.updateBalance(-(Number(data) + Number(tax)), socket)
