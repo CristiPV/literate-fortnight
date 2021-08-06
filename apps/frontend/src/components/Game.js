@@ -50,8 +50,8 @@ const Game = (props) => {
       setBalance(data);
     });
 
-    socketRef.current.emit("requestPlayers");
-  }, [username, balance]);
+    socketRef.current.emit("requestPlayers")
+  }, []);
 
   return (
     <>

@@ -5,8 +5,8 @@ const UserInfo = (props) => {
         user
     } = props
   return (
-    <div className="flex flex-row">
-      <p className="w-max m-auto text-green-300 text-3xl">User: {user.name} balance: {user.funds}</p>
+    <div className="">
+      <p className="w-max m-auto text-green-300 sm:text-3xl text-xs">User: {user.name} balance: {user.funds}</p>
     </div>
   );
 };
