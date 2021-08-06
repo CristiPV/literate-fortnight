@@ -33,7 +33,12 @@ class UserInputComponent extends React.Component {
     if (event.keyCode === 13) {
       this.handleSubmit();
     }
-  };
+  }
+  maxLengthCheck = (object) => {
+    if (object.target.value.length > object.target.maxLength) {
+     object.target.value = object.target.value.slice(0, object.target.maxLength)
+      }
+    }
   render() {
     return (
       <div>
@@ -52,7 +57,7 @@ class UserInputComponent extends React.Component {
                 Insert Username:
               </label>
               <input
-                maxLength="10"
+                maxLength="8"
                 name="username"
                 type="text"
                 value={this.state.username}
@@ -67,30 +72,31 @@ class UserInputComponent extends React.Component {
               >
                 Insert Funds:
               </label>
-              <input
-                className=""
-                name="amountOfFunds"
-                type="number"
-                value={this.state.amountOfFunds}
-                onChange={this.handleInputChange}
-                onKeyPress={this.handleKeyPress}
-              />
-            </div>
-            <div className="m-2">
-              <button
-                type="submit"
-                onClick={this.handleSubmit}
-                ref={(node) => (this.btn = node)}
-                className="bg-red-300 hover:bg-pink-400 rounded-r pt-1 pb-1 pl-3 pr-3 w-max overflow-hidden m-2"
-              >
-                Enter Lobby
-              </button>
-            </div>
+                <input                                  
+                  name="amountOfFunds"
+                  type="number"
+                  value={this.state.amountOfFunds}  
+                  onChange={this.handleInputChange}
+                  onKeyPress={this.handleKeyPress}   
+                  maxLength = "4"
+                  onInput={this.maxLengthCheck}                                         
+                />  
+            </div> 
+              <div className="m-2">
+                <button
+                 type="submit"
+                 onClick={this.handleSubmit}                 
+                 ref={node=> (this.btn = node)}  
+                  className="bg-red-300 hover:bg-pink-400 rounded-r pt-1 pb-1 pl-3 pr-3 w-max overflow-hidden m-2"                                  
+                  >Enter Lobby
+                </button>
+              </div>             
           </div>
         </form>
       </div>
     );
   }
 }
+
 
 export default UserInputComponent;
