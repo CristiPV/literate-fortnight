@@ -37,7 +37,7 @@ const Wheel = (props) => {
     props.participantsList.map((p) => tmp += p.itemv)
     return (
       <div className="m-auto w-min pb-2">
-        <p className="w-max text-yellow-400 sm:text-3xl text-xs">Jackpot</p>
+        <p className="w-max text-yellow-400 sm:text-3xl text-xs">{props.wonText ? 'You Won' : 'Jackpot'}</p>
       <p className="w-max text-yellow-400 sm:text-5xl text-xs m-auto">{tmp}</p>
       </div>
     )
@@ -62,7 +62,7 @@ const Wheel = (props) => {
           isOnlyOnce={false}
           size={size}
           upDuration={1000}
-          downDuration={1000}
+          downDuration={4000}
           doneSpinning={props.doneSpinning}
           setDoneSpinning={props.setDoneSpinning}
         />

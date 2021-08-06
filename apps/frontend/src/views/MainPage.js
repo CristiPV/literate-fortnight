@@ -13,6 +13,7 @@ export default function MainPage(props) {
   const [winnings, setWinnings] = useState([]);
   const [canBet, setCanBet] = useState(true);
   const [doneSpinning, setDoneSpinning] = useState(false);
+  const [wonState, setWonState] = useState()
   const ref = useRef();
 
   const mapToParticipantsValues = () => {
@@ -44,12 +45,10 @@ export default function MainPage(props) {
         name: winningPlayer.item,
       },
     ]);
-
     if (props.socket.current.id === winner) {
-      alert(`You won the jackpot of ${jackpot}`);
-    } else {
-      alert(`You lost your bet`);
+      setWonState(true);
     }
+    
     setCanBet(true);
   };
 
@@ -66,6 +65,7 @@ export default function MainPage(props) {
     setSpin({ spin: false, winner: undefined });
     setCanBet(false);
     setReload(reload + 1);
+    setWonState(false);
   }, [props.bettingPlayers]);
 
   useEffect(() => {
@@ -94,11 +94,12 @@ export default function MainPage(props) {
         />
         <CountDownTimer value={"" + props.countdown} />
       </div>
-      <div className="flex flex-row overflow-hidden h-3/4">
+      <div className="flex flex-row">
         <ListofParticipants participants={mapToParticipantsValues()} />
         <div className="w-min m-auto">
           {props.bettingPlayers.length > 0 ? (
             <Wheel
+              wonText={wonState}
               key={reload}
               wRef={ref}
               spin={spin}
@@ -111,6 +112,7 @@ export default function MainPage(props) {
             <p>W8ing for more players</p>
           )}
         </div>
+        
         <WinningHistory winnings={winnings} />
       </div>
     </div>
