@@ -6,10 +6,10 @@ import SpinningWheel from "./SpinningWheel";
 import "react-wheel-of-prizes/dist/index.css";
 
 const Wheel = (props) => {
-  const [size, setSize] = useState(300);
+  const [size, setSize] = useState(10);
   const [inc, setInc] = useState(0);
   const wheelContainerRef = useRef();
-  const wheelText = "Jackpot";
+  const wheelText = "";
   const segColors = [
     "#EE4040",
     "#F0CF50",
@@ -23,7 +23,7 @@ const Wheel = (props) => {
   const onFinished = (winner) => {
     //props.postWinner(winner);
   };
-
+/*
   const handleResize = () => {
     try {
       console.log(wheelContainerRef.current.clientHeight)
@@ -33,26 +33,30 @@ const Wheel = (props) => {
     }
       
   };
+  */
 
   useEffect(() => {
-    setSize(wheelContainerRef.current.getBoundingClientRect().width > 600 ? 600 : wheelContainerRef.current.getBoundingClientRect().width)
-    window.addEventListener("resize", handleResize);
+    console.log(props.wRef.current.getBoundingClientRect().width)
+    let tmp = props.wRef.current.getBoundingClientRect().width / 6;
+    console.log(tmp)
+    setSize(tmp > 600 ? 600 : tmp)
+    setInc(inc + 1)
   }, []);
+  
 
   return (
-    <div className="w-full overflow-hidden" ref={wheelContainerRef}>
-      <button onClick={()=>setInc(inc + 1)}>Reset</button>
+    <div className="w-full" ref={wheelContainerRef}>
       {props.spin.spin ? (
         <SpinningWheel
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.spin.winner}
           onFinished={(winner) => onFinished(winner)}
-          primaryColor="black"
-          contrastColor="white"
+          primaryColor=""
+          contrastColor=""
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={size - 100}
+          size={size}
           upDuration={100}
           downDuration={1000}
           doneSpinning={props.doneSpinning}
@@ -65,11 +69,11 @@ const Wheel = (props) => {
           segColors={segColors}
           winningSegment={props.winner}
           onFinished={(winner) => onFinished(winner)}
-          primaryColor="black"
-          contrastColor="white"
+          primaryColor=""
+          contrastColor=""
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={size - 100}
+          size={size}
           upDuration={100}
           downDuration={1000}
         />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Wheel from "../components/Wheel";
 import CountDownTimer from "../components/CountDownTimer";
 import WinningHistory from "../components/WinningHistory";
@@ -12,6 +12,7 @@ export default function MainPage(props) {
   const [spin, setSpin] = useState({ spin: false, winner: undefined });
   const [winnings, setWinnings] = useState([]);
   const [doneSpinning, setDoneSpinning] = useState(false);
+  const ref = useRef();
 
   const mapToParticipantsValues = () => {
     const p = props.participants.map((participant) => ({
@@ -59,9 +60,8 @@ export default function MainPage(props) {
   }, [doneSpinning]);
 
   return (
-    <div className="relative h-full w-full">
-      <div>
-        <div className="space-x-4 w-min m-auto flex flex-row p-4">
+    <div className="h-full w-full" ref={ref}>
+        <div className="flex sm:flex-row flex-col p-4 space-x-4 w-min m-auto">
           <UserInfo user={props.user} />
           <BetInput
             socket={props.socket}
@@ -70,12 +70,13 @@ export default function MainPage(props) {
           />
           <CountDownTimer value={"" + props.countdown} />
         </div>
-        <div className="flex flex-row w-screen">
+        <div className="flex flex-row overflow-hidden h-3/4">
           <ListofParticipants participants={mapToParticipantsValues()} />
-          <div className="w-full">
+          <div className="w-min m-auto">
             {props.bettingPlayers.length > 0 ? (
               <Wheel
                 key={reload}
+                wRef={ref}
                 spin={spin}
                 doneSpinning={doneSpinning}
                 setDoneSpinning={setDoneSpinning}
@@ -88,7 +89,6 @@ export default function MainPage(props) {
           </div>
           <WinningHistory winnings={winnings} />
         </div>
-      </div>
     </div>
   );
 }
