@@ -36,6 +36,11 @@ class UserInputComponent extends React.Component {
       this.handleSubmit();
     }
   }
+  maxLengthCheck = (object) => {
+    if (object.target.value.length > object.target.maxLength) {
+     object.target.value = object.target.value.slice(0, object.target.maxLength)
+      }
+    }
   render() {
     return (      
       <div>
@@ -51,25 +56,27 @@ class UserInputComponent extends React.Component {
                 Insert Username:
               </label>        
               <input
-                className=""
+                placeholder="max 12 letters"                
                 name="username"
                 type="text"
                 value={this.state.username}
                 onChange={this.handleInputChange}                
                 pattern="[a-zA-Z'-'\s]*"
+                maxLength={12}
               />                
             </div>
             <div className="m-2 w-min">            
               <label htmlFor="amountOfFunds" className="text-green-300 font-extrabold">
                 Insert Funds:
               </label>
-                <input                
-                  className=""
+                <input                                  
                   name="amountOfFunds"
                   type="number"
                   value={this.state.amountOfFunds}  
                   onChange={this.handleInputChange}
-                  onKeyPress={this.handleKeyPress}                                            
+                  onKeyPress={this.handleKeyPress}   
+                  maxLength = "8"
+                  onInput={this.maxLengthCheck}                                         
                 />  
             </div> 
               <div className="m-2">
@@ -87,5 +94,6 @@ class UserInputComponent extends React.Component {
     );
   }
 }
+
 
 export default UserInputComponent;
