@@ -131,9 +131,9 @@ export default function StaticWheel(props) {
     ctx.strokeStyle = contrastColor || "white";
     ctx.fileStyle = contrastColor || "white";
     ctx.beginPath();
-    ctx.moveTo(centerX + 10, 5);
-    ctx.lineTo(centerX - 10, 5);
-    ctx.lineTo(centerX, 77);
+    ctx.moveTo(centerX + 10, 0);
+    ctx.lineTo(centerX - 10, 0);
+    ctx.lineTo(centerX, size / 10);
     ctx.closePath();
     ctx.fill();
     var change = angleCurrent + Math.PI / 2;

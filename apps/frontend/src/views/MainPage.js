@@ -11,6 +11,7 @@ export default function MainPage(props) {
   const [betAmount, setBetAmount] = useState(50);
   const [spin, setSpin] = useState({ spin: false, winner: undefined });
   const [winnings, setWinnings] = useState([]);
+  const [canBet, setCanBet] = useState(true);
   const [doneSpinning, setDoneSpinning] = useState(false);
   const ref = useRef();
 
@@ -49,6 +50,7 @@ export default function MainPage(props) {
     } else {
       alert(`You lost your bet`);
     }
+    setCanBet(true);
   };
 
   const mapToWheelValues = () => {
@@ -62,6 +64,7 @@ export default function MainPage(props) {
 
   useEffect(() => {
     setSpin({ spin: false, winner: undefined });
+    setCanBet(false);
     setReload(reload + 1);
   }, [props.bettingPlayers]);
 
@@ -87,6 +90,7 @@ export default function MainPage(props) {
           betAmount={betAmount}
           currentBalance={props.user.funds}
           setBetAmount={setBetAmount}
+          canBet={canBet}
         />
         <CountDownTimer value={"" + props.countdown} />
       </div>

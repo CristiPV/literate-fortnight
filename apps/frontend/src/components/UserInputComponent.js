@@ -52,7 +52,7 @@ class UserInputComponent extends React.Component {
                 Insert Username:
               </label>
               <input
-                className=""
+                maxLength="10"
                 name="username"
                 type="text"
                 value={this.state.username}

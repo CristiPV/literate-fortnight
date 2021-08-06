@@ -62,11 +62,6 @@ const Game = (props) => {
         bettingPlayers={bettingPlayers}
         participants={participants}
       />
-      {winner ? (
-        <div>
-          <p>{winner.id}</p>
-        </div>
-      ) : null}
     </>
   );
 };

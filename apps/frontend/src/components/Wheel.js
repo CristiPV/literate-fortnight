@@ -44,7 +44,7 @@ const Wheel = (props) => {
           buttonText={wheelText}
           isOnlyOnce={false}
           size={size}
-          upDuration={100}
+          upDuration={1000}
           downDuration={1000}
           doneSpinning={props.doneSpinning}
           setDoneSpinning={props.setDoneSpinning}
