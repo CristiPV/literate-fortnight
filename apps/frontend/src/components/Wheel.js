@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 //import WheelComponent from 'react-wheel-of-prizes'
 import StaticWheel from "./StaticWheel";
@@ -6,7 +6,10 @@ import SpinningWheel from "./SpinningWheel";
 import "react-wheel-of-prizes/dist/index.css";
 
 const Wheel = (props) => {
-  const wheelText = "Jackpot";
+  const [size, setSize] = useState(10);
+  const [inc, setInc] = useState(0);
+  const wheelContainerRef = useRef();
+  const wheelText = "";
   const segColors = [
     "#EE4040",
     "#F0CF50",
@@ -20,19 +23,40 @@ const Wheel = (props) => {
   const onFinished = (winner) => {
     //props.postWinner(winner);
   };
+/*
+  const handleResize = () => {
+    try {
+      console.log(wheelContainerRef.current.clientHeight)
+      setSize(wheelContainerRef.current.getBoundingClientRect().width > 600 ? 600 : wheelContainerRef.current.getBoundingClientRect().width)
+    } catch (error){
+
+    }
+      
+  };
+  */
+
+  useEffect(() => {
+    console.log(props.wRef.current.getBoundingClientRect().width)
+    let tmp = props.wRef.current.getBoundingClientRect().width / 6;
+    console.log(tmp)
+    setSize(tmp > 600 ? 600 : tmp)
+    setInc(inc + 1)
+  }, []);
+  
+
   return (
-    <div>
+    <div className="w-full" ref={wheelContainerRef}>
       {props.spin.spin ? (
         <SpinningWheel
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.spin.winner}
           onFinished={(winner) => onFinished(winner)}
-          primaryColor="black"
-          contrastColor="white"
+          primaryColor=""
+          contrastColor=""
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={300}
+          size={size}
           upDuration={100}
           downDuration={1000}
           doneSpinning={props.doneSpinning}
@@ -40,15 +64,16 @@ const Wheel = (props) => {
         />
       ) : (
         <StaticWheel
+          key={inc}
           segments={props.participantsList}
           segColors={segColors}
           winningSegment={props.winner}
           onFinished={(winner) => onFinished(winner)}
-          primaryColor="black"
-          contrastColor="white"
+          primaryColor=""
+          contrastColor=""
           buttonText={wheelText}
           isOnlyOnce={false}
-          size={300}
+          size={size}
           upDuration={100}
           downDuration={1000}
         />

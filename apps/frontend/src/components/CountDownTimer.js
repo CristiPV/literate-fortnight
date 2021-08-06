@@ -12,13 +12,16 @@ const CountDownTimer = (props) => {
       }
     }
     return (
-      <div className="flex flex-row space-x-2">
-          <p className="text-green-300 text-3xl w-max m-auto ">Time left: </p>
+      <div className="">
+        <div className="flex flex-row space-x-2 m-auto">
+        <p className="text-green-300 sm:text-3xl text-xs w-max m-auto">Time left: </p>
         {tmpArray.map((k, i) => (
-          <p key={i} className="text-4xl text-red-400 pl-1 pr-1 bg-green-300 rounded">
+          <p key={i} className="sm:text-4xl text-xs text-red-400 pl-1 pr-1 bg-green-300 rounded">
             {k}
           </p>
         ))}
+        </div>
+          
       </div>
     );
   };

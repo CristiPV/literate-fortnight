@@ -194,21 +194,21 @@ export default function SpinningWheel(props) {
     }
 
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 50, 0, PI2, false);
+    ctx.arc(centerX, centerY, 1, 0, PI2, false);
     ctx.closePath();
     ctx.fillStyle = primaryColor || "black";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 1;
     ctx.strokeStyle = contrastColor || "white";
     ctx.fill();
     ctx.font = "bold 1em proxima-nova";
     ctx.fillStyle = contrastColor || "white";
     ctx.textAlign = "center";
-    ctx.fillText(buttonText || "Spin", centerX, centerY + 3);
+    ctx.fillText(buttonText || "", centerX, centerY + 3);
     ctx.stroke();
     ctx.beginPath();
     ctx.arc(centerX, centerY, size, 0, PI2, false);
     ctx.closePath();
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = primaryColor || "black";
     ctx.stroke();
   };
@@ -219,9 +219,9 @@ export default function SpinningWheel(props) {
     ctx.strokeStyle = contrastColor || "white";
     ctx.fileStyle = contrastColor || "white";
     ctx.beginPath();
-    ctx.moveTo(centerX + 20, centerY - 50);
-    ctx.lineTo(centerX - 20, centerY - 50);
-    ctx.lineTo(centerX, centerY - 70);
+    ctx.moveTo(centerX + 5, centerY - 1);
+    ctx.lineTo(centerX - 5, centerY - 1);
+    ctx.lineTo(centerX, centerY - 30);
     ctx.closePath();
     ctx.fill();
     var change = angleCurrent + Math.PI / 2;
