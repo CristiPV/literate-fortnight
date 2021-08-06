@@ -31,8 +31,25 @@ const Wheel = (props) => {
     setInc(inc + 1);
   }, []);
 
+  const jackpotAmount = () => {
+    console.log(props.participantsList)
+    let tmp = 0;
+    props.participantsList.map((p) => tmp += p.itemv)
+    return (
+      <div className="m-auto w-min pb-2">
+        <p className="w-max text-yellow-400 sm:text-3xl text-xs">Jackpot</p>
+      <p className="w-max text-yellow-400 sm:text-5xl text-xs m-auto">{tmp}</p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full" ref={wheelContainerRef}>
+      <div className="w-full">
+      {
+        jackpotAmount()
+      }
+      </div>
       {props.spin.spin ? (
         <SpinningWheel
           segments={props.participantsList}
