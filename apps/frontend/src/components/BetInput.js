@@ -3,12 +3,22 @@ import React from "react";
 const BetInput = (props) => {
   const placeBet = (e) => {
     e.preventDefault();
-    const betAmount = props.betAmount;
+    const betAmount = parseInt(props.betAmount);
     const funds = props.currentBalance;
-    if (betAmount < funds && betAmount > 0) {
-      props.socket.current.emit("placedBet", betAmount);
+    const tax = process.env.REACT_APP_TAX;
+    const fundsMinusTax = Math.floor(funds - funds * tax);
+    if (typeof betAmount === "number") {
+      if (betAmount <= fundsMinusTax && betAmount > 0) {
+        props.socket.current.emit("placedBet", betAmount);
+      } else {
+        window.alert(
+          `Not enough funds!\nYou can't bet more than ${fundsMinusTax}\n\nBalance - ${
+            tax * 100
+          }% TAX`
+        );
+      }
     } else {
-      window.alert(`Not enough funds!`);
+      alert("Bet must be a number...");
     }
   };
   return (
@@ -16,6 +26,7 @@ const BetInput = (props) => {
       <input
         className="w-20 overflow-hidden rounded-l text-center"
         value={props.betAmount}
+        type={"number"}
         onChange={(e) => props.setBetAmount(e.target.value)}
       />
       <button
