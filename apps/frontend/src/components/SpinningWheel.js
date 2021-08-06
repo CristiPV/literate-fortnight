@@ -55,7 +55,6 @@ export default function SpinningWheel(props) {
   };
 
   useEffect(() => {
-    console.log('Winning segment: ' + winningSegment)
     spin();
   }, [spin]);
 
@@ -144,14 +143,14 @@ export default function SpinningWheel(props) {
 
   var drawSegment = function drawSegment(key, lastAngle, angle) {
     var ctx = canvasContext;
-    var value = segments[key].item;
+    var value = segments[key].itemu;
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.arc(centerX, centerY, size, lastAngle, angle, false);
     ctx.lineTo(centerX, centerY);
     ctx.closePath();
-    ctx.fillStyle = segColors[key];
+    ctx.fillStyle = segColors[key % 2];
     ctx.fill();
     ctx.stroke();
     ctx.save();
@@ -219,9 +218,9 @@ export default function SpinningWheel(props) {
     ctx.strokeStyle = contrastColor || "white";
     ctx.fileStyle = contrastColor || "white";
     ctx.beginPath();
-    ctx.moveTo(centerX + 5, centerY - 1);
-    ctx.lineTo(centerX - 5, centerY - 1);
-    ctx.lineTo(centerX, centerY - 30);
+    ctx.moveTo(centerX + 10, 0);
+    ctx.lineTo(centerX - 10, 0);
+    ctx.lineTo(centerX, size / 10);
     ctx.closePath();
     ctx.fill();
     var change = angleCurrent + Math.PI / 2;

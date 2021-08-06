@@ -23,7 +23,7 @@ const Game = (props) => {
 
     return () => socketRef.current.disconnect();
   }, []);
-  
+
   useEffect(() => {
     socketRef.current.on("requestPlayerData", () => {
       socketRef.current.emit("sendPlayerData", { username, balance });
@@ -36,7 +36,6 @@ const Game = (props) => {
     });
 
     socketRef.current.on("allPlayers", (data) => {
-      console.log(data.players);
       setParticipants(data.players);
     });
 
@@ -50,7 +49,7 @@ const Game = (props) => {
       setBalance(data);
     });
 
-    socketRef.current.emit("requestPlayers")
+    socketRef.current.emit("requestPlayers");
   }, []);
 
   return (
@@ -63,11 +62,6 @@ const Game = (props) => {
         bettingPlayers={bettingPlayers}
         participants={participants}
       />
-      {winner ? (
-        <div>
-          <p>{winner.id}</p>
-        </div>
-      ) : null}
     </>
   );
 };

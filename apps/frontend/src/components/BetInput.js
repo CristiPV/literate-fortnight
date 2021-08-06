@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const BetInput = (props) => {
+  const [isBetPlaced, setIsBetPlaced] = useState(false);
+
+  useEffect(() => {
+    if (props.canBet === true) {
+      setIsBetPlaced(false);
+    }
+  }, [props.canBet]);
+
   const placeBet = (e) => {
     e.preventDefault();
     const betAmount = parseInt(props.betAmount);
@@ -10,6 +18,7 @@ const BetInput = (props) => {
     if (typeof betAmount === "number") {
       if (betAmount <= fundsMinusTax && betAmount > 0) {
         props.socket.current.emit("placedBet", betAmount);
+        setIsBetPlaced(true);
       } else {
         window.alert(
           `Not enough funds!\nYou can't bet more than ${fundsMinusTax}\n\nBalance - ${
@@ -29,12 +38,16 @@ const BetInput = (props) => {
         type={"number"}
         onChange={(e) => props.setBetAmount(e.target.value)}
       />
-      <button
-        className="w-20 bg-red-300 hover:bg-pink-400 rounded-r pt-2 pb-2 pl-3 pr-3 w-max overflow-hidden"
-        onClick={placeBet}
-      >
-        Bet
-      </button>
+      {isBetPlaced ? (
+        <></>
+      ) : (
+        <button
+          className="w-20 bg-red-300 hover:bg-pink-400 rounded-r pt-2 pb-2 pl-3 pr-3 w-max overflow-hidden"
+          onClick={placeBet}
+        >
+          Bet
+        </button>
+      )}
     </div>
   );
 };
