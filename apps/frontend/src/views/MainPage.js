@@ -66,6 +66,7 @@ export default function MainPage(props) {
           <BetInput
             socket={props.socket}
             betAmount={betAmount}
+            currentBalance={props.user.funds}
             setBetAmount={setBetAmount}
           />
           <CountDownTimer value={"" + props.countdown} />
