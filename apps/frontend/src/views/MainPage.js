@@ -22,11 +22,17 @@ export default function MainPage(props) {
   };
 
   const addWinner = (winner) => {
+    const participantsList = props.participants.map((participant) => ({
+      item: participant.username,
+      id: participant.id,
+    }));
+
+    const winningPlayer = participantsList.filter((par) => par.id === winner);
     setWinnings((oldArray) => [
       ...oldArray,
       {
         id: oldArray.length,
-        name: winner,
+        name: winningPlayer[0].item,
       },
     ]);
   };
@@ -35,6 +41,7 @@ export default function MainPage(props) {
     const tmp = props.bettingPlayers.map((player) => ({
       item: player.id,
       itemv: 1,
+      itemu: player.username,
     }));
     return tmp;
   };
@@ -45,7 +52,6 @@ export default function MainPage(props) {
   }, [props.bettingPlayers]);
 
   useEffect(() => {
-    console.log(props.winner);
     if (props.winner.id) {
       setSpin({ spin: true, winner: props.winner.id });
     }

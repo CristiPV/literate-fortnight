@@ -56,7 +56,7 @@ export default function StaticWheel(props) {
 
   var drawSegment = function drawSegment(key, lastAngle, angle) {
     var ctx = canvasContext;
-    var value = segments[key].item;
+    var value = segments[key].itemu;
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
