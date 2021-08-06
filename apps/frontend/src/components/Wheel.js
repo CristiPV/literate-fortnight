@@ -10,39 +10,26 @@ const Wheel = (props) => {
   const [inc, setInc] = useState(0);
   const wheelContainerRef = useRef();
   const wheelText = "";
-  const segColors = [
-    "#EE4040",
-    "#F0CF50",
-    "#815CD1",
-    "#3DA5E0",
-    "#34A24F",
-    "#F9AA1F",
-    "#EC3F3F",
-    "#FF9000",
-  ];
+  const segColors = ["#EE4040", "#F0CF50"];
   const onFinished = (winner) => {
     //props.postWinner(winner);
   };
-/*
+  /*
   const handleResize = () => {
     try {
       console.log(wheelContainerRef.current.clientHeight)
       setSize(wheelContainerRef.current.getBoundingClientRect().width > 600 ? 600 : wheelContainerRef.current.getBoundingClientRect().width)
     } catch (error){
-
     }
       
   };
   */
 
   useEffect(() => {
-    console.log(props.wRef.current.getBoundingClientRect().width)
     let tmp = props.wRef.current.getBoundingClientRect().width / 6;
-    console.log(tmp)
-    setSize(tmp > 600 ? 600 : tmp)
-    setInc(inc + 1)
+    setSize(tmp > 600 ? 600 : tmp);
+    setInc(inc + 1);
   }, []);
-  
 
   return (
     <div className="w-full" ref={wheelContainerRef}>

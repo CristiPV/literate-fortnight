@@ -63,7 +63,7 @@ export default function StaticWheel(props) {
     ctx.arc(centerX, centerY, size, lastAngle, angle, false);
     ctx.lineTo(centerX, centerY);
     ctx.closePath();
-    ctx.fillStyle = segColors[key];
+    ctx.fillStyle = segColors[key % 2];
     ctx.fill();
     ctx.stroke();
     ctx.save();
@@ -131,9 +131,9 @@ export default function StaticWheel(props) {
     ctx.strokeStyle = contrastColor || "white";
     ctx.fileStyle = contrastColor || "white";
     ctx.beginPath();
-    ctx.moveTo(centerX + 5, centerY - 1);
-    ctx.lineTo(centerX - 5, centerY - 1);
-    ctx.lineTo(centerX, centerY - 30);
+    ctx.moveTo(centerX + 10, 5);
+    ctx.lineTo(centerX - 10, 5);
+    ctx.lineTo(centerX, 77);
     ctx.closePath();
     ctx.fill();
     var change = angleCurrent + Math.PI / 2;
